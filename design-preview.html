@@ -1670,11 +1670,15 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
   border-color: transparent;
 }
 
-/* Footer pattern */
+/* Footer pattern
+   Rule: when consumed full-bleed, the dark footer must always carry a 3px
+   terracotta top stripe so it reads as a distinct surface — never a
+   continuation of a dark section above it (no dark-on-dark sandwich). */
 .footer-pattern {
   background: var(--brand-primary-deep);
   color: var(--brand-cream);
   border-radius: var(--r-lg);
+  border-top: 3px solid var(--brand-terracotta);
   padding: 48px 40px 32px;
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
@@ -1684,6 +1688,7 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
   background: var(--cream-100);
   color: var(--brand-primary);
   border: 0.5px solid var(--navy-50);
+  border-top: 3px solid var(--brand-terracotta);
 }
 .footer-pattern.cream .footer-col-title { color: var(--navy-100); }
 .footer-pattern.cream .footer-col a { color: var(--brand-primary); }
