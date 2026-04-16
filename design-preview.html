@@ -1519,7 +1519,297 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
   .ds-hero-meta { flex-direction: column; gap: 12px; }
   .dm-palette-grid, .dm-components, .dm-rules, .brand-variants-grid, .logo-donts { grid-template-columns: 1fr; }
   .elevation-grid, .chart-preview-grid, .icon-size-grid, .container-width-demos, .bp-grid, .zindex-layers { grid-template-columns: 1fr; }
+  .footer-pattern { grid-template-columns: 1fr; gap: 32px; padding: 32px 24px 24px; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .nav-pattern { padding: 12px 18px; gap: 12px; flex-wrap: wrap; }
+  .nav-pattern-links { gap: 16px; order: 3; flex-basis: 100%; justify-content: flex-start; margin-left: 0; }
+  .favicon-stage { grid-template-columns: 1fr; }
 }
+
+/* ========== FAVICON ========== */
+.favicon-stage {
+  display: grid;
+  grid-template-columns: repeat(3, max-content) 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.favicon-card {
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-md);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.favicon-render {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  width: 56px;
+}
+.favicon-meta { text-align: center; }
+.favicon-tok {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.favicon-use {
+  font-size: 11px;
+  color: var(--navy-100);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.favicon-snippet {
+  background: var(--brand-primary-deep);
+  color: var(--brand-cream);
+  border-radius: var(--r-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.favicon-snippet pre { margin: 0; }
+.favicon-snippet code { color: var(--brand-cream); }
+
+/* ========== PAGE CHROME (nav + footer) ========== */
+
+/* Nav pattern */
+.nav-pattern {
+  background: var(--cream-50);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav-pattern + .nav-pattern { margin-top: 14px; }
+.nav-pattern-logo svg { display: block; }
+.nav-pattern-links {
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+  align-items: center;
+}
+.nav-pattern-link {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--brand-primary);
+  text-decoration: none;
+  padding: 6px 0;
+  border-radius: var(--r-full);
+  transition: color var(--motion-fast) var(--ease-out);
+}
+.nav-pattern-link:hover { color: var(--brand-primary-deep); }
+.nav-pattern-link.is-active {
+  color: var(--brand-primary-deep);
+  font-weight: 600;
+  background: var(--navy-50);
+  padding: 6px 18px;
+  border: 1px solid rgba(163, 178, 198, 0.45);
+}
+.nav-pattern-cta {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--brand-terracotta);
+  color: var(--brand-cream);
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: filter var(--motion-fast) var(--ease-out);
+}
+.nav-pattern-cta:hover { filter: brightness(0.95); }
+
+/* Mobile nav variant */
+.nav-pattern.mobile {
+  padding: 12px 18px;
+}
+.nav-pattern.mobile .nav-pattern-links { display: none; }
+.nav-pattern-burger {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-left: auto;
+}
+.nav-pattern-burger span {
+  display: block;
+  height: 1.5px;
+  width: 22px;
+  background: var(--brand-primary-deep);
+  border-radius: 2px;
+}
+
+/* Inverse nav variant (on dark surfaces) */
+.nav-pattern.inverse {
+  background: var(--brand-primary-deep);
+  border-color: transparent;
+}
+.nav-pattern.inverse .nav-pattern-link { color: rgba(255, 252, 251, 0.72); }
+.nav-pattern.inverse .nav-pattern-link:hover { color: var(--brand-cream); }
+.nav-pattern.inverse .nav-pattern-link.is-active {
+  color: var(--brand-primary-deep);
+  background: var(--brand-cream);
+  border-color: transparent;
+}
+
+/* Footer pattern */
+.footer-pattern {
+  background: var(--brand-primary-deep);
+  color: var(--brand-cream);
+  border-radius: var(--r-lg);
+  padding: 48px 40px 32px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+  gap: 48px;
+}
+.footer-pattern.cream {
+  background: var(--cream-100);
+  color: var(--brand-primary);
+  border: 0.5px solid var(--navy-50);
+}
+.footer-pattern.cream .footer-col-title { color: var(--navy-100); }
+.footer-pattern.cream .footer-col a { color: var(--brand-primary); }
+.footer-pattern.cream .footer-col a:hover { color: var(--brand-primary-deep); }
+.footer-pattern.cream .footer-tagline { color: var(--brand-primary); }
+.footer-pattern.cream .footer-bottom {
+  border-top-color: var(--navy-50);
+  color: var(--navy-100);
+}
+.footer-pattern.cream .footer-newsletter input {
+  background: var(--cream-0);
+  color: var(--brand-primary-deep);
+  border: 1px solid var(--navy-50);
+}
+.footer-pattern.cream .footer-newsletter input::placeholder { color: var(--navy-100); }
+
+.footer-brand-col { display: flex; flex-direction: column; gap: 16px; }
+.footer-brand-col svg { display: block; }
+.footer-tagline {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 252, 251, 0.78);
+  max-width: 280px;
+}
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+.footer-social {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-full);
+  background: rgba(255, 252, 251, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-cream);
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-out);
+}
+.footer-social:hover { background: rgba(255, 252, 251, 0.2); }
+.footer-pattern.cream .footer-social {
+  background: var(--cream-0);
+  color: var(--brand-primary-deep);
+  border: 0.5px solid var(--navy-50);
+}
+.footer-pattern.cream .footer-social:hover { background: var(--navy-50); }
+
+.footer-col { display: flex; flex-direction: column; gap: 12px; }
+.footer-col-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 252, 251, 0.55);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--brand-cream);
+  text-decoration: none;
+  line-height: 1.6;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+.footer-col a:hover { opacity: 0.7; }
+
+.footer-newsletter { display: flex; flex-direction: column; gap: 12px; }
+.footer-newsletter-label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 252, 251, 0.85);
+}
+.footer-pattern.cream .footer-newsletter-label { color: var(--brand-primary); }
+.footer-newsletter-form {
+  display: flex;
+  gap: 8px;
+}
+.footer-newsletter input {
+  flex: 1;
+  background: rgba(255, 252, 251, 0.08);
+  border: 1px solid rgba(255, 252, 251, 0.2);
+  color: var(--brand-cream);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  outline: none;
+  min-width: 0;
+}
+.footer-newsletter input::placeholder { color: rgba(255, 252, 251, 0.5); }
+.footer-newsletter button {
+  background: var(--brand-terracotta);
+  color: var(--brand-cream);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  border-top: 0.5px solid rgba(255, 252, 251, 0.14);
+  margin-top: 16px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: rgba(255, 252, 251, 0.55);
+}
+.footer-bottom-links { display: flex; gap: 20px; }
+.footer-bottom-links a {
+  color: inherit;
+  text-decoration: none;
+}
+.footer-bottom-links a:hover { color: var(--brand-cream); }
+.footer-pattern.cream .footer-bottom-links a:hover { color: var(--brand-primary-deep); }
 
 /* ========== FOUNDATIONS SECTION ========== */
 
@@ -1896,6 +2186,7 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
       <a href="#spacing">Spacing</a>
       <a href="#shape">Shape</a>
       <a href="#components">Components</a>
+      <a href="#page-chrome">Page chrome</a>
       <a href="#motion">Motion</a>
       <a href="#voice">Voice</a>
       <a href="#foundations">Foundations</a>
@@ -2112,6 +2403,39 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
             <svg class="logo-svg" style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
           </div>
           <div class="dont-label">Don't place on busy patterns</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Favicon</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Use the included <code style="font-family:var(--font-mono);font-size:12px;color:var(--brand-primary-deep);background:var(--cream-100);padding:2px 6px;border-radius:4px;">favicon.png</code> on every Pet Central web build. Already linked in the design preview's <code style="font-family:var(--font-mono);font-size:12px;color:var(--brand-primary-deep);background:var(--cream-100);padding:2px 6px;border-radius:4px;">&lt;head&gt;</code>.</p>
+      <div class="favicon-stage">
+        <div class="favicon-card">
+          <div class="favicon-render"><img src="assets/favicon.png" alt="Pet Central favicon" style="width:48px;height:48px;image-rendering:auto;" /></div>
+          <div class="favicon-meta">
+            <div class="favicon-tok">favicon · 48px</div>
+            <div class="favicon-use">Browser bookmarks, large tabs</div>
+          </div>
+        </div>
+        <div class="favicon-card">
+          <div class="favicon-render"><img src="assets/favicon.png" alt="Pet Central favicon" style="width:32px;height:32px;image-rendering:auto;" /></div>
+          <div class="favicon-meta">
+            <div class="favicon-tok">favicon · 32px</div>
+            <div class="favicon-use">Standard tab favicon (default)</div>
+          </div>
+        </div>
+        <div class="favicon-card">
+          <div class="favicon-render"><img src="assets/favicon.png" alt="Pet Central favicon" style="width:16px;height:16px;image-rendering:auto;" /></div>
+          <div class="favicon-meta">
+            <div class="favicon-tok">favicon · 16px</div>
+            <div class="favicon-use">Compressed tabs, small bookmarks</div>
+          </div>
+        </div>
+        <div class="favicon-snippet">
+<pre><code>&lt;link rel="icon"
+      type="image/png"
+      href="/assets/favicon.png"&gt;</code></pre>
         </div>
       </div>
     </div>
@@ -2778,10 +3102,198 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
     </div>
   </section>
 
-  <!-- 9. MOTION -->
-  <section class="ds-section" id="motion">
+  <!-- 9. PAGE CHROME -->
+  <section class="ds-section" id="page-chrome">
     <div class="ds-section-header">
       <div class="ds-section-num">09</div>
+      <h2>Page chrome</h2>
+      <p>Nav and footer — the scaffolding that wraps every page. Built from tokens, not bespoke values.</p>
+    </div>
+
+    <!-- Top nav -->
+    <div class="ds-sub">
+      <h3>Top nav</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Sticky header. Logo left, links right, single accent CTA. Active link gets the navy-50 pill (same pattern as the design-system nav above this).</p>
+
+      <!-- Default state -->
+      <div class="nav-pattern">
+        <a href="#page-chrome" class="nav-pattern-logo" aria-label="Pet Central home">
+          <svg style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+        </a>
+        <div class="nav-pattern-links">
+          <a href="#page-chrome" class="nav-pattern-link is-active">Brands</a>
+          <a href="#page-chrome" class="nav-pattern-link">How it works</a>
+          <a href="#page-chrome" class="nav-pattern-link">Pricing</a>
+          <a href="#page-chrome" class="nav-pattern-link">About</a>
+        </div>
+        <a href="#page-chrome" class="nav-pattern-cta">Book a call</a>
+      </div>
+
+      <!-- Inverse on dark -->
+      <div class="nav-pattern inverse">
+        <a href="#page-chrome" class="nav-pattern-logo" aria-label="Pet Central home">
+          <svg style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-cream)"><use href="#pc-logo"/></svg>
+        </a>
+        <div class="nav-pattern-links">
+          <a href="#page-chrome" class="nav-pattern-link">Brands</a>
+          <a href="#page-chrome" class="nav-pattern-link is-active">How it works</a>
+          <a href="#page-chrome" class="nav-pattern-link">Pricing</a>
+          <a href="#page-chrome" class="nav-pattern-link">About</a>
+        </div>
+        <a href="#page-chrome" class="nav-pattern-cta">Book a call</a>
+      </div>
+
+      <!-- Mobile collapsed -->
+      <div class="nav-pattern mobile" style="max-width:380px;">
+        <a href="#page-chrome" class="nav-pattern-logo" aria-label="Pet Central home">
+          <svg style="height:24px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+        </a>
+        <div class="nav-pattern-burger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="ds-sub">
+      <h3>Footer</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Four columns: brand + tagline, two link columns, newsletter. Bottom row carries copyright and legal links. Defaults to navy; cream variant for marketing pages where the footer should feel lighter.</p>
+
+      <!-- Navy footer (default) -->
+      <div class="footer-pattern">
+        <div class="footer-brand-col">
+          <svg style="height:32px;" viewBox="0 0 8102 1033" fill="var(--brand-cream)"><use href="#pc-logo"/></svg>
+          <p class="footer-tagline">A pet data platform with a marketing engine attached. Built for South African pet brands.</p>
+          <div class="footer-socials">
+            <a href="#" class="footer-social" aria-label="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="Email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <a href="#">Brands</a>
+          <a href="#">How it works</a>
+          <a href="#">Pricing</a>
+          <a href="#">FAQ</a>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Press</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-newsletter">
+          <div class="footer-col-title">Stay in the loop</div>
+          <p class="footer-newsletter-label">Get notified when the quiz goes live.</p>
+          <form class="footer-newsletter-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="you@email.com" />
+            <button type="submit">Notify me</button>
+          </form>
+        </div>
+
+        <div class="footer-bottom">
+          <div>© 2026 Pet Central · Cape Town</div>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cream footer (marketing pages) -->
+      <div class="footer-pattern cream" style="margin-top:20px;">
+        <div class="footer-brand-col">
+          <svg style="height:32px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          <p class="footer-tagline">A pet data platform with a marketing engine attached. Built for South African pet brands.</p>
+          <div class="footer-socials">
+            <a href="#" class="footer-social" aria-label="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="Email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <a href="#">Brands</a>
+          <a href="#">How it works</a>
+          <a href="#">Pricing</a>
+          <a href="#">FAQ</a>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Press</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-newsletter">
+          <div class="footer-col-title">Stay in the loop</div>
+          <p class="footer-newsletter-label">Get notified when the quiz goes live.</p>
+          <form class="footer-newsletter-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="you@email.com" />
+            <button type="submit">Notify me</button>
+          </form>
+        </div>
+
+        <div class="footer-bottom">
+          <div>© 2026 Pet Central · Cape Town</div>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="ds-sub">
+      <h3>Rules</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text"><strong>One CTA per nav.</strong> Either "Book a call" or "Sign in" — never both. Compete and they cancel.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text"><strong>Nav links read as nouns.</strong> "Brands", "Pricing", "About". Not "Discover our brands" or "See pricing".</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text"><strong>Don't deeplink the logo elsewhere.</strong> The logo always returns to the home page. No exceptions.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text"><strong>Don't stack three columns of footer links.</strong> Two link columns max. More than that and the footer becomes a sitemap.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. MOTION -->
+  <section class="ds-section" id="motion">
+    <div class="ds-section-header">
+      <div class="ds-section-num">10</div>
       <h2>Motion</h2>
       <p>Pet Central moves quietly. No bounces, no springs, no parallax. Hover each token to preview.</p>
     </div>
@@ -2810,10 +3322,10 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
     </div>
   </section>
 
-  <!-- 10. VOICE & COPY -->
+  <!-- 11. VOICE & COPY -->
   <section class="ds-section" id="voice">
     <div class="ds-section-header">
-      <div class="ds-section-num">10</div>
+      <div class="ds-section-num">11</div>
       <h2>Voice & copy</h2>
       <p>Calm, warm, plainspoken. Like a vet nurse who's been doing this for fifteen years.</p>
     </div>
@@ -2864,10 +3376,10 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
     </div>
   </section>
 
-  <!-- 11. FOUNDATIONS -->
+  <!-- 12. FOUNDATIONS -->
   <section class="ds-section" id="foundations">
     <div class="ds-section-header">
-      <div class="ds-section-num">11</div>
+      <div class="ds-section-num">12</div>
       <h2>Foundations</h2>
       <p>The plumbing — elevation, focus, layers, widths, breakpoints, charts, icons. Tokens most people never see, but that every component leans on.</p>
     </div>
