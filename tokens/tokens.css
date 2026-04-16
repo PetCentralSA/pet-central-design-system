@@ -105,6 +105,13 @@
   --icon-lg: 24px;
   --icon-xl: 32px;
 
+  /* ---------- Logo sizes ---------- */
+  --logo-xs: 16px;  /* Inline mentions, dense UI */
+  --logo-sm: 24px;  /* Nav bars, compact headers */
+  --logo-md: 32px;  /* Standard nav, footers, signatures */
+  --logo-lg: 40px;  /* Page heroes, about pages */
+  --logo-xl: 56px;  /* Splash screens, brand moments */
+
   /* ---------- Motion ---------- */
   --motion-fast: 120ms;
   --motion-base: 200ms;

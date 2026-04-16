@@ -99,7 +99,7 @@ const navy = tokens.brand['primary-deep'].$value; // "#163E6F"
 | **Breakpoints** | `bp-sm` (480) → `bp-xl` (1440) |
 | **Chart** | 8 categorical colours (`chart-1` → `chart-8`) |
 | **Icon sizes** | `icon-xs` (12px) → `icon-xl` (32px) |
-| **Logo sizes** | `logo-xs` (16px) → `logo-xl` (88px) |
+| **Logo sizes** | `logo-xs` (16px) → `logo-xl` (56px) |
 | **Motion** | Durations (`fast/base/slow`) + easings (`out/inout`) |
 | **Type families** | `font-header` (Kefir), `font-ui` (Jost), `font-numbers` (Inter), `font-mono` (JetBrains Mono) |
 | **Dark mode** | Scoped to `.dark-stage` or `[data-theme="dark"]` |
