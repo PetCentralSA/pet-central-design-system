@@ -1,0 +1,3179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pet Central — Design System</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ========== CUSTOM FONTS ========== */
+@font-face {
+  font-family: 'Kefir';
+  src: url('fonts/kefir-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('fonts/Jost.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('fonts/Jost-Italic.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+/* ========== RESET ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ========== DESIGN TOKENS ========== */
+:root {
+  /* Brand */
+  --brand-primary: #48658D;
+  --brand-primary-deep: #163E6F;
+  --brand-cream: #FFFCFB;
+  --brand-terracotta: #F87644;
+
+  /* Functional */
+  --info-bg: #E6F1FB; --info-border: #185FA5; --info-text: #0C447C;
+  --success-bg: #DEECE4; --success-border: #2A7D62; --success-text: #0D4434;
+  --warning-bg: #FAEEDA; --warning-border: #BA7517; --warning-text: #633806;
+  --danger-bg: #FCEBEB; --danger-border: #A32D2D; --danger-text: #791F1F;
+  --seasonal-bg: #EEEDFE; --seasonal-border: #534AB7; --seasonal-text: #3C3489;
+
+  /* Neutral — cream family (warm surfaces) */
+  --cream-0: #FFFFFE;
+  --cream-50: #FFFBF7;
+  --cream-100: #FEF7EF;
+  --cream-200: #FDEEDF;
+
+  /* Neutral — navy family (cool text, borders, hints) */
+  --navy-0: #FBFCFD;
+  --navy-50: #E2E6ED;
+  --navy-100: #A3B2C6;
+  --navy-200: #48658D;
+
+  /* Legacy aliases (mapped to the new system) */
+  --n0: var(--cream-0);
+  --n50: var(--cream-50);
+  --n100: var(--cream-100);
+  --n200: var(--navy-50);
+  --n400: var(--navy-100);
+  --n600: var(--brand-primary);
+  --n800: var(--brand-primary-deep);
+  --n900: var(--brand-primary-deep);
+
+  /* Radius */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
+
+  /* Elevation — navy-tinted shadows, flat aesthetic */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(22, 62, 111, 0.06);
+  --shadow-md: 0 4px 12px rgba(22, 62, 111, 0.08);
+  --shadow-lg: 0 12px 32px rgba(22, 62, 111, 0.12);
+  --shadow-xl: 0 24px 64px rgba(22, 62, 111, 0.16);
+
+  /* Focus ring */
+  --focus-ring-color: #48658D;
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+  --focus-ring: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-overlay: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-toast: 700;
+  --z-tooltip: 800;
+
+  /* Content widths */
+  --content-narrow: 640px;
+  --content-default: 1120px;
+  --content-wide: 1440px;
+  --content-full: 100%;
+
+  /* Breakpoints (documentation tokens — used in @media via comment) */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1440px;
+
+  /* Chart palette — categorical, 8 steps */
+  --chart-1: #48658D;  /* brand primary */
+  --chart-2: #F87644;  /* terracotta */
+  --chart-3: #2A7D62;  /* pine */
+  --chart-4: #BA7517;  /* amber */
+  --chart-5: #534AB7;  /* violet */
+  --chart-6: #185FA5;  /* royal */
+  --chart-7: #A3B2C6;  /* navy muted */
+  --chart-8: #163E6F;  /* primary deep */
+
+  /* Icon sizes */
+  --icon-xs: 12px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* Motion */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Type */
+  --font-header: 'Kefir', 'Jost', system-ui, sans-serif;
+  --font-ui: 'Jost', system-ui, -apple-system, sans-serif;
+  --font-numbers: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ========== BASE ========== */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--brand-primary);
+  background: var(--n50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4 { color: var(--brand-primary-deep); }
+
+/* ========== PAGE STRUCTURE ========== */
+.ds-page { max-width: 1120px; margin: 0 auto; padding: 0 48px 120px; }
+
+/* ========== HERO ========== */
+.ds-hero {
+  padding: 80px 0 64px;
+  border-bottom: 0.5px solid var(--n200);
+  margin-bottom: 64px;
+}
+.ds-hero-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 16px;
+}
+.ds-hero h1 {
+  font-family: var(--font-header);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--brand-primary-deep);
+  margin-bottom: 16px;
+}
+.ds-hero h1 span { color: var(--brand-primary); }
+.ds-hero-sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--n600);
+  max-width: 560px;
+}
+.ds-hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 0.5px solid var(--n200);
+}
+.ds-hero-meta-item {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n400);
+  letter-spacing: 0.03em;
+}
+.ds-hero-meta-item strong {
+  display: block;
+  font-family: var(--font-numbers);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--n800);
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== NAV ========== */
+.ds-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 253, 250, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--navy-50);
+  padding: 14px 0;
+  margin: 0 -48px 64px;
+  padding-left: 48px;
+  padding-right: 48px;
+}
+.ds-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ds-nav-inner::-webkit-scrollbar { display: none; }
+.ds-nav a {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brand-primary);
+  text-decoration: none;
+  padding: 8px 0;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-out),
+              background var(--motion-fast) var(--ease-out),
+              border-color var(--motion-fast) var(--ease-out),
+              padding var(--motion-fast) var(--ease-out);
+}
+.ds-nav a:hover {
+  color: var(--brand-primary-deep);
+}
+.ds-nav a.is-active {
+  color: var(--brand-primary-deep);
+  font-weight: 600;
+  background: var(--navy-50);
+  border-color: rgba(163, 178, 198, 0.45);
+  padding: 8px 20px;
+}
+
+/* ========== SECTIONS ========== */
+.ds-section {
+  margin-bottom: 80px;
+  scroll-margin-top: 72px;
+}
+.ds-section-header {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid var(--n200);
+}
+.ds-section-num {
+  font-family: var(--font-numbers);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-primary);
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+.ds-section-header h2 {
+  font-family: var(--font-header);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--brand-primary-deep);
+}
+.ds-section-header p {
+  font-size: 15px;
+  color: var(--n600);
+  margin-top: 8px;
+  max-width: 600px;
+}
+
+/* ========== SUBSECTIONS ========== */
+.ds-sub { margin-bottom: 48px; }
+.ds-sub h3 {
+  font-family: var(--font-header);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--brand-primary-deep);
+  margin-bottom: 20px;
+}
+.ds-sub h4 {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--n400);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ========== DARK MODE ========== */
+.dark-stage {
+  --dm-surface: #0D2A4D;
+  --dm-card: #163E6F;
+  --dm-elevated: #1E4C7F;
+  --dm-text: #FFFCFB;
+  --dm-text-muted: rgba(255, 252, 251, 0.68);
+  --dm-text-dim: rgba(255, 252, 251, 0.45);
+  --dm-border: rgba(255, 252, 251, 0.14);
+  --dm-border-strong: rgba(255, 252, 251, 0.28);
+
+  background: var(--dm-surface);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  color: var(--dm-text);
+  position: relative;
+  overflow: hidden;
+}
+.dark-stage::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 50%;
+  height: 120%;
+  background: radial-gradient(ellipse at center, rgba(72, 101, 141, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+.dark-stage > * { position: relative; z-index: 1; }
+.dark-stage-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-numbers);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--dm-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.dark-stage-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full);
+  background: var(--brand-cream);
+  box-shadow: 0 0 8px rgba(255, 252, 251, 0.5);
+}
+
+.dm-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.dm-swatch {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--dm-border);
+}
+.dm-swatch-fill {
+  height: 64px;
+}
+.dm-swatch-info {
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.dm-swatch-token {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--dm-text);
+  margin-bottom: 2px;
+}
+.dm-swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--dm-text-muted);
+}
+
+.dm-components {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+.dm-card {
+  background: var(--dm-card);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.dm-card h4 {
+  font-family: var(--font-header);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dm-text);
+  margin-bottom: 8px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.dm-card p {
+  font-size: 14px;
+  color: var(--dm-text-muted);
+  line-height: 1.55;
+}
+.dm-card-label {
+  font-family: var(--font-numbers);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--dm-text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.dm-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 18px;
+  background: var(--brand-cream);
+  color: var(--brand-primary-deep);
+  border-radius: var(--r-lg);
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.dm-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 18px;
+  background: transparent;
+  color: var(--dm-text);
+  border: 1px solid var(--dm-border-strong);
+  border-radius: var(--r-md);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dm-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  background: var(--dm-elevated);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--r-md);
+  color: var(--dm-text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  outline: none;
+}
+.dm-input::placeholder { color: var(--dm-text-dim); }
+.dm-input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dm-text);
+  margin-bottom: 6px;
+}
+
+.dm-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255, 252, 251, 0.1);
+  color: var(--dm-text);
+}
+.dm-badge.primary {
+  background: var(--brand-cream);
+  color: var(--brand-primary-deep);
+}
+.dm-badge.accent {
+  background: var(--brand-terracotta);
+  color: var(--brand-primary-deep);
+}
+
+.dm-metric {
+  background: var(--dm-elevated);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.dm-metric-label {
+  font-size: 11px;
+  color: var(--dm-text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.dm-metric-value {
+  font-family: var(--font-numbers);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--dm-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.dm-rules {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+.dm-rule {
+  background: var(--dm-card);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--dm-text-muted);
+  line-height: 1.5;
+}
+.dm-rule strong {
+  display: block;
+  color: var(--dm-text);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+/* ========== BRAND MARK ========== */
+.logo-svg { display: block; width: auto; }
+.logo-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 40px;
+  border-radius: var(--r-lg);
+  border: 0.5px solid var(--n200);
+  position: relative;
+  overflow: hidden;
+}
+.logo-stage.on-cream { background: var(--brand-cream); }
+.logo-stage.on-navy { background: var(--brand-primary-deep); border-color: transparent; }
+.logo-stage.on-primary { background: var(--brand-primary); border-color: transparent; }
+.logo-stage.on-neutral { background: var(--n50); }
+.logo-stage-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+}
+.logo-stage.on-navy .logo-stage-caption,
+.logo-stage.on-primary .logo-stage-caption { color: rgba(255,252,251,0.6); }
+
+.brand-variants-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.logo-sizes {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 32px;
+}
+.logo-size-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 0.5px solid var(--n100);
+}
+.logo-size-row:last-child { border-bottom: none; }
+.logo-size-meta {
+  flex-shrink: 0;
+  width: 180px;
+}
+.logo-size-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-primary);
+}
+.logo-size-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+  margin-top: 2px;
+}
+.logo-size-use {
+  font-size: 13px;
+  color: var(--n600);
+  margin-top: 4px;
+}
+.logo-size-render {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.clear-space-demo {
+  background: var(--n50);
+  border: 0.5px dashed var(--n400);
+  border-radius: var(--r-md);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.clear-space-box {
+  position: relative;
+  padding: 32px;
+  border: 1px dashed var(--brand-terracotta);
+}
+.clear-space-box::before {
+  content: 'x';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--n50);
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-terracotta);
+}
+.clear-space-box::after {
+  content: 'x';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--n50);
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-terracotta);
+}
+
+.logo-donts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.dont-card {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-md);
+  padding: 20px;
+  text-align: center;
+}
+.dont-stage {
+  background: var(--n50);
+  padding: 24px 16px;
+  border-radius: var(--r-sm);
+  margin-bottom: 12px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.dont-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 49.5%, rgba(163, 45, 45, 0.5) 49.5%, rgba(163, 45, 45, 0.5) 50.5%, transparent 50.5%);
+  pointer-events: none;
+  border-radius: var(--r-sm);
+}
+.dont-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--danger-text);
+}
+
+/* ========== 1. VISUAL THEME ========== */
+.mood-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.mood-card {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 32px;
+}
+.mood-card.full { grid-column: 1 / -1; }
+.mood-card h4 {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-primary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.mood-card p {
+  font-size: 15px;
+  color: var(--n600);
+  line-height: 1.65;
+}
+.mood-adjectives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.mood-adj {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--n800);
+  padding: 8px 20px;
+  background: var(--brand-cream);
+  border-radius: var(--r-full);
+}
+.mood-nots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.mood-not {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  text-decoration: line-through;
+  text-decoration-color: rgba(121, 31, 31, 0.3);
+}
+.mood-audience {
+  background: var(--brand-primary);
+  color: var(--brand-cream);
+  border-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+.mood-audience::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 60%;
+  height: 140%;
+  background: radial-gradient(ellipse at center, rgba(22, 62, 111, 0.45) 0%, transparent 70%);
+  pointer-events: none;
+}
+.mood-audience > * { position: relative; z-index: 1; }
+.mood-audience h4 {
+  color: var(--brand-cream);
+  opacity: 0.55;
+}
+.mood-audience p {
+  color: var(--brand-cream);
+  opacity: 0.92;
+}
+
+/* ========== 2. COLOUR SYSTEM ========== */
+.colour-row {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.colour-row.brand { grid-template-columns: repeat(4, 1fr); }
+.colour-row.neutral { grid-template-columns: repeat(8, 1fr); }
+.colour-row.functional { grid-template-columns: repeat(5, 1fr); }
+
+.swatch {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 0.5px solid var(--n200);
+}
+.swatch-fill {
+  height: 80px;
+  position: relative;
+}
+.swatch-info {
+  padding: 10px 12px;
+  background: var(--n0);
+}
+.swatch-token {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--n800);
+  margin-bottom: 2px;
+}
+.swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+}
+
+/* Functional swatches */
+.func-swatch {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 0.5px solid var(--n200);
+}
+.func-swatch-header {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.func-swatch-rows { background: var(--n0); }
+.func-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n600);
+  border-top: 0.5px solid var(--n100);
+}
+.func-swatch-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-full);
+  flex-shrink: 0;
+}
+
+/* ========== 3. TYPOGRAPHY ========== */
+.type-sample {
+  display: flex;
+  align-items: baseline;
+  gap: 32px;
+  padding: 20px 0;
+  border-bottom: 0.5px solid var(--n100);
+}
+.type-sample:last-child { border-bottom: none; }
+.type-meta {
+  flex-shrink: 0;
+  width: 160px;
+  text-align: right;
+}
+.type-token {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--brand-primary);
+}
+.type-specs {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+  margin-top: 2px;
+}
+.type-render { flex: 1; color: var(--n800); }
+
+.type-families {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+@media (max-width: 900px) {
+  .type-families { grid-template-columns: repeat(2, 1fr); }
+}
+.type-family-card {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.type-family-card .label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.type-family-card .sample {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--n900);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.type-family-card .name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--n400);
+}
+
+/* ========== 4. SPACING ========== */
+.spacing-tokens {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.spacing-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.spacing-label {
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.spacing-label .tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n800);
+}
+.spacing-label .val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+}
+.spacing-bar {
+  height: 24px;
+  background: var(--brand-primary);
+  border-radius: 3px;
+  opacity: 0.15;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+.spacing-row:hover .spacing-bar { opacity: 0.35; }
+
+/* ========== 5. SHAPE & RADIUS ========== */
+.radius-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.radius-box {
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--brand-primary);
+  background: rgba(29, 158, 117, 0.06);
+}
+.radius-item .tok {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--n800);
+}
+.radius-item .val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--n400);
+  margin-top: -6px;
+}
+
+.border-examples {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.border-ex {
+  padding: 16px 24px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--n600);
+}
+.border-ex.default { border: 0.5px solid var(--n200); }
+.border-ex.emphasis { border: 0.5px solid var(--n400); }
+.border-ex.featured { border: 2px solid var(--brand-primary); color: var(--brand-primary); }
+
+/* ========== 6. COMPONENTS ========== */
+.comp-group {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  margin-bottom: 20px;
+}
+.comp-group-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n400);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.comp-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn-demo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 20px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all var(--motion-fast) var(--ease-out);
+}
+.btn-primary-demo {
+  background: var(--brand-primary);
+  color: var(--n0);
+  border-radius: var(--r-lg);
+}
+.btn-primary-demo:hover { background: var(--brand-primary-deep); }
+.btn-primary-demo:active { transform: scale(0.98); }
+.btn-secondary-demo {
+  background: transparent;
+  color: var(--n800);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-md);
+}
+.btn-secondary-demo:hover { background: var(--n100); }
+.btn-ghost-demo {
+  background: transparent;
+  color: var(--n600);
+  border-radius: var(--r-md);
+}
+.btn-ghost-demo:hover { background: var(--n100); }
+.btn-destructive-demo {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-radius: var(--r-md);
+}
+.btn-destructive-demo:hover { background: #f8d4d4; }
+
+.btn-touch {
+  height: 44px;
+  padding: 0 28px;
+  font-size: 15px;
+}
+
+/* Card */
+.card-demo {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.card-demo h4 {
+  font-family: var(--font-header);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--n800);
+}
+.card-demo p {
+  font-size: 15px;
+  color: var(--n600);
+  line-height: 1.6;
+}
+
+/* Metric card */
+.metric-demo {
+  background: var(--n50);
+  border-radius: var(--r-md);
+  padding: 16px;
+  min-width: 140px;
+}
+.metric-demo .metric-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n400);
+  margin-bottom: 4px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.metric-demo .metric-value {
+  font-family: var(--font-numbers);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--n800);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* Reminder */
+.reminder-demo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  border-left: 3px solid;
+  margin-bottom: 8px;
+}
+.reminder-demo:last-child { margin-bottom: 0; }
+.reminder-demo.warning {
+  background: var(--warning-bg);
+  border-left-color: var(--warning-border);
+}
+.reminder-demo.info {
+  background: var(--info-bg);
+  border-left-color: var(--info-border);
+}
+.reminder-demo.seasonal {
+  background: var(--seasonal-bg);
+  border-left-color: var(--seasonal-border);
+}
+.reminder-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+.reminder-demo.warning .reminder-title { color: var(--warning-text); }
+.reminder-demo.info .reminder-title { color: var(--info-text); }
+.reminder-demo.seasonal .reminder-title { color: var(--seasonal-text); }
+.reminder-sub {
+  font-size: 13px;
+  margin-top: 2px;
+}
+.reminder-demo.warning .reminder-sub { color: rgba(99, 56, 6, 0.6); }
+.reminder-demo.info .reminder-sub { color: rgba(12, 68, 124, 0.6); }
+.reminder-demo.seasonal .reminder-sub { color: rgba(60, 52, 137, 0.6); }
+.reminder-actions {
+  display: flex;
+  gap: 8px;
+}
+.reminder-btn {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--r-sm);
+  border: none;
+  cursor: pointer;
+  background: rgba(0,0,0,0.06);
+  transition: background var(--motion-fast);
+}
+.reminder-demo.warning .reminder-btn { color: var(--warning-text); }
+.reminder-demo.info .reminder-btn { color: var(--info-text); }
+.reminder-demo.seasonal .reminder-btn { color: var(--seasonal-text); }
+
+/* Input */
+.input-group { max-width: 320px; }
+.input-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n800);
+  margin-bottom: 6px;
+  display: block;
+}
+.input-demo {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--n800);
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-md);
+  outline: none;
+  transition: box-shadow var(--motion-fast), border-color var(--motion-fast);
+}
+.input-demo:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.2);
+}
+.input-helper {
+  font-size: 13px;
+  color: var(--n400);
+  margin-top: 6px;
+}
+
+/* Avatar */
+.avatar-demo {
+  border-radius: var(--r-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  flex-shrink: 0;
+  background: var(--info-bg);
+  color: var(--info-text);
+}
+.avatar-32 { width: 32px; height: 32px; font-size: 12px; }
+.avatar-44 { width: 44px; height: 44px; font-size: 15px; }
+.avatar-72 { width: 72px; height: 72px; font-size: 24px; }
+
+/* Badge */
+.badge-demo {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+.badge-info { background: var(--info-bg); color: var(--info-text); }
+.badge-success { background: var(--success-bg); color: var(--success-text); }
+.badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+.badge-danger { background: var(--danger-bg); color: var(--danger-text); }
+.badge-seasonal { background: var(--seasonal-bg); color: var(--seasonal-text); }
+
+/* Progress */
+.progress-track {
+  width: 240px;
+  height: 6px;
+  background: var(--n100);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: var(--r-full);
+  background: var(--brand-primary);
+  transition: width var(--motion-slow) var(--ease-out);
+}
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-val {
+  font-family: var(--font-numbers);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--n800);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Empty state */
+.empty-demo {
+  text-align: center;
+  padding: 48px 24px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.empty-illustration {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: var(--r-full);
+  background: var(--brand-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty-illustration svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--brand-primary-deep);
+  fill: none;
+  stroke-width: 1.5;
+}
+.empty-demo h4 {
+  font-family: var(--font-header);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--n800);
+  margin-bottom: 8px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.empty-demo p {
+  font-size: 13px;
+  color: var(--n400);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Toast */
+.toast-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--n800);
+  box-shadow: none;
+}
+.toast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full);
+  flex-shrink: 0;
+}
+.toast-dismiss {
+  font-size: 18px;
+  color: var(--n400);
+  cursor: pointer;
+  margin-left: 8px;
+  line-height: 1;
+}
+
+/* ========== 7. MOTION ========== */
+.motion-tokens {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.motion-token {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-md);
+  padding: 16px 20px;
+}
+.motion-bar-track {
+  width: 80px;
+  height: 4px;
+  background: var(--n100);
+  border-radius: var(--r-full);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.motion-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 100%;
+  border-radius: var(--r-full);
+  background: var(--brand-primary);
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.motion-token:hover .motion-bar-fill { animation-play-state: running; }
+.motion-bar-fill { animation-play-state: paused; }
+.motion-token:hover .motion-bar-fill.fast {
+  animation: slide 240ms var(--ease-out) infinite alternate;
+}
+.motion-token:hover .motion-bar-fill.base {
+  animation: slide 400ms var(--ease-out) infinite alternate;
+}
+.motion-token:hover .motion-bar-fill.slow {
+  animation: slide 640ms var(--ease-out) infinite alternate;
+}
+.motion-token:hover .motion-bar-fill.ease-out-demo {
+  animation: slide 500ms var(--ease-out) infinite alternate;
+}
+.motion-token:hover .motion-bar-fill.ease-inout-demo {
+  animation: slide 500ms var(--ease-inout) infinite alternate;
+}
+@keyframes slide {
+  from { left: 0; }
+  to { left: calc(100% - 12px); }
+}
+.motion-info { flex: 1; }
+.motion-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n800);
+}
+.motion-desc {
+  font-size: 13px;
+  color: var(--n400);
+  margin-top: 2px;
+}
+
+/* ========== 8. VOICE ========== */
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.voice-card {
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.voice-card.do { border-left: 3px solid var(--success-border); }
+.voice-card.dont { border-left: 3px solid var(--danger-border); }
+.voice-card-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.voice-card.do .voice-card-label { color: var(--success-text); }
+.voice-card.dont .voice-card-label { color: var(--danger-text); }
+.voice-card ul {
+  list-style: none;
+  padding: 0;
+}
+.voice-card li {
+  font-size: 14px;
+  color: var(--n600);
+  line-height: 1.5;
+  padding: 6px 0;
+  border-bottom: 0.5px solid var(--n100);
+}
+.voice-card li:last-child { border-bottom: none; }
+
+.micro-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.micro-table th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--n400);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--n200);
+  background: var(--n50);
+}
+.micro-table td {
+  font-size: 14px;
+  color: var(--n600);
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--n100);
+  vertical-align: top;
+}
+.micro-table td:first-child {
+  font-weight: 500;
+  color: var(--n800);
+  white-space: nowrap;
+}
+.micro-table td:nth-child(2) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--n400);
+}
+.micro-table td:nth-child(3) {
+  font-style: italic;
+  color: var(--brand-primary-deep);
+}
+
+/* ========== COLOUR RULES GRID ========== */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.rule-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--n0);
+  border: 0.5px solid var(--n200);
+  border-radius: var(--r-md);
+}
+.rule-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+.rule-icon.do { background: var(--success-bg); color: var(--success-text); }
+.rule-icon.dont { background: var(--danger-bg); color: var(--danger-text); }
+.rule-text {
+  font-size: 13px;
+  color: var(--n600);
+  line-height: 1.5;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .ds-page { padding: 0 20px 80px; }
+  .ds-nav { margin: 0 -20px 48px; padding-left: 20px; padding-right: 20px; }
+  .ds-hero h1 { font-size: 36px; }
+  .mood-grid, .voice-grid, .motion-tokens, .rules-grid { grid-template-columns: 1fr; }
+  .mood-card.full { grid-column: auto; }
+  .colour-row.brand { grid-template-columns: repeat(2, 1fr); }
+  .colour-row.neutral { grid-template-columns: repeat(4, 1fr); }
+  .colour-row.functional { grid-template-columns: 1fr; }
+  .type-families { grid-template-columns: 1fr; }
+  .type-sample { flex-direction: column; gap: 8px; }
+  .type-meta { width: auto; text-align: left; }
+  .ds-hero-meta { flex-direction: column; gap: 12px; }
+  .dm-palette-grid, .dm-components, .dm-rules, .brand-variants-grid, .logo-donts { grid-template-columns: 1fr; }
+  .elevation-grid, .chart-preview-grid, .icon-size-grid, .container-width-demos, .bp-grid, .zindex-layers { grid-template-columns: 1fr; }
+}
+
+/* ========== FOUNDATIONS SECTION ========== */
+
+/* Elevation */
+.elevation-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.elevation-card {
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 140px;
+  justify-content: space-between;
+}
+.elevation-card.s-sm { box-shadow: var(--shadow-sm); }
+.elevation-card.s-md { box-shadow: var(--shadow-md); }
+.elevation-card.s-lg { box-shadow: var(--shadow-lg); }
+.elevation-card.s-xl { box-shadow: var(--shadow-xl); }
+.elevation-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.elevation-use {
+  font-size: 12px;
+  color: var(--navy-100);
+  line-height: 1.5;
+}
+
+/* Focus ring */
+.focus-ring-demo {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 32px;
+  background: var(--cream-50);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+}
+.focus-demo-btn,
+.focus-demo-input,
+.focus-demo-link {
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+.focus-demo-btn {
+  background: var(--brand-primary-deep);
+  color: var(--brand-cream);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  font-weight: 500;
+  outline: none;
+}
+.focus-demo-btn:focus-visible,
+.focus-demo-btn.is-focused {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+.focus-demo-input {
+  background: var(--cream-0);
+  color: var(--brand-primary-deep);
+  border: 1px solid var(--navy-50);
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  outline: none;
+  min-width: 220px;
+}
+.focus-demo-input:focus-visible,
+.focus-demo-input.is-focused {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-color: var(--brand-primary);
+}
+.focus-demo-link {
+  color: var(--brand-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 4px 2px;
+  border-radius: var(--r-sm);
+  outline: none;
+}
+.focus-demo-link:focus-visible,
+.focus-demo-link.is-focused {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Z-index layers */
+.zindex-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.zindex-table th,
+.zindex-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--navy-50);
+  font-size: 13px;
+  color: var(--brand-primary);
+}
+.zindex-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--navy-100);
+  background: var(--cream-50);
+  font-weight: 500;
+}
+.zindex-table td.tok {
+  font-family: var(--font-mono);
+  color: var(--brand-primary-deep);
+  width: 160px;
+}
+.zindex-table td.num {
+  font-family: var(--font-numbers);
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-primary-deep);
+  width: 80px;
+}
+.zindex-table tr:last-child td { border-bottom: none; }
+
+/* Container widths */
+.container-width-demos {
+  display: grid;
+  gap: 12px;
+}
+.container-width-row {
+  background: var(--cream-50);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+.container-width-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+  width: 180px;
+}
+.container-width-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.container-width-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--navy-100);
+}
+.container-width-bar {
+  height: 10px;
+  background: var(--brand-primary);
+  border-radius: var(--r-full);
+  position: relative;
+}
+.container-width-bar.narrow { width: 44.4%; }     /* 640 / 1440 */
+.container-width-bar.default { width: 77.8%; }    /* 1120 / 1440 */
+.container-width-bar.wide { width: 100%; }
+.container-width-bar.full {
+  width: 100%;
+  background: repeating-linear-gradient(90deg, var(--brand-primary) 0 12px, var(--navy-100) 12px 14px);
+}
+.container-width-use {
+  font-size: 12px;
+  color: var(--navy-100);
+  flex-shrink: 0;
+  width: 240px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* Breakpoints */
+.bp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.bp-card {
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bp-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.bp-val {
+  font-family: var(--font-numbers);
+  font-variant-numeric: tabular-nums;
+  font-size: 22px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.bp-val small {
+  font-size: 12px;
+  color: var(--navy-100);
+  font-weight: 400;
+  margin-left: 2px;
+}
+.bp-use {
+  font-size: 12px;
+  color: var(--navy-100);
+  line-height: 1.4;
+}
+
+/* Chart palette */
+.chart-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.chart-swatches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.chart-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chart-swatch-fill {
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  border: 0.5px solid rgba(22, 62, 111, 0.08);
+}
+.chart-swatch-tok {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.chart-swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--navy-100);
+}
+/* Mock bar chart */
+.chart-example {
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chart-example-title {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--navy-100);
+  font-weight: 500;
+}
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 140px;
+}
+.chart-bar {
+  flex: 1;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6px;
+  font-family: var(--font-numbers);
+  font-size: 10px;
+  color: var(--brand-cream);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Icon sizes */
+.icon-size-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.icon-size-card {
+  background: var(--cream-0);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-md);
+  padding: 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.icon-size-render {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  color: var(--brand-primary-deep);
+}
+.icon-size-render svg { width: auto; height: auto; }
+.icon-size-tok {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand-primary-deep);
+  font-weight: 500;
+}
+.icon-size-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--navy-100);
+}
+.icon-size-use {
+  font-size: 11px;
+  color: var(--navy-100);
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<!-- Pet Central logo symbol (reused via <use xlink:href>) -->
+<svg width="0" height="0" style="position:absolute;" aria-hidden="true">
+  <symbol id="pc-logo" viewBox="0 0 8102 1033">
+    <path d="M2599.33 349.719C2712.08 308.909 2848.73 303.505 2936.63 398.35C2983.03 448.403 2995.38 522.487 3002.93 588.134C3004.91 605.671 3007.41 623.493 3010 641.457L3011.21 649.874V649.876C3017.73 695.219 3024.33 741.169 3024.33 785.312C3024.33 921.677 2914.37 1032.21 2778.71 1032.21C2719.2 1032.21 2656.11 1031.36 2607.73 992.728C2597.62 984.652 2588.04 975.88 2578.48 967.113C2562.6 952.571 2546.75 938.046 2528.51 926.749C2501.31 909.899 2470.6 901.31 2440.02 892.758C2431.63 890.412 2423.25 888.069 2414.96 885.56C2382.43 875.701 2356.21 856.41 2333.39 830.909C2288.78 781.141 2265.01 712.791 2265.01 646.102C2265.01 581.734 2284.77 515.803 2328.67 467.788C2354.2 439.901 2385.71 428.852 2418.87 418.462L2425.52 416.388C2436.09 413.101 2446.79 409.772 2457.5 405.886C2481.17 397.274 2504.44 387.664 2527.72 378.055C2551.46 368.254 2575.19 358.455 2599.33 349.719ZM3899.81 24.5977C4132.67 24.5977 4260.26 169.52 4260.26 304.533C4260.26 368.943 4220.62 408.58 4156.21 408.58C3998.9 408.58 4049.68 153.417 3850.26 153.417C3732.59 153.417 3657.03 251.271 3657.03 406.103C3657.03 624.105 3774.7 775.221 3956.79 775.222C4162.4 775.222 4180.98 611.719 4245.39 611.719C4268.93 611.719 4281.31 627.822 4281.31 656.311C4281.31 806.188 4126.48 975.883 3872.56 975.883C3596.34 975.883 3419.21 798.756 3419.21 522.536C3419.21 235.169 3622.35 24.5977 3899.81 24.5977ZM1784.96 155.887C1820.88 155.887 1836.99 175.705 1833.27 217.819C1830.79 252.502 1829.55 284.707 1827.08 314.435C1915.02 313.196 1955.9 309.48 1994.29 309.48C2032.69 309.481 2045.08 323.105 2045.08 362.742V372.651C2045.08 412.288 2030.22 425.913 1989.34 425.913C1949.7 425.913 1906.35 423.436 1822.12 422.197C1817.17 532.437 1815.93 615.427 1818.41 688.508C1820.88 771.498 1846.9 804.941 1908.83 804.941C2005.44 804.941 2005.44 719.475 2048.8 719.475C2066.14 719.475 2076.05 734.338 2076.05 756.634C2076.05 886.692 1978.19 975.876 1838.22 975.876C1685.87 975.876 1607.83 892.886 1605.36 733.1C1602.88 636.485 1605.36 523.767 1610.31 419.721H1563.24C1524.85 419.721 1506.27 407.333 1506.27 380.083V376.367C1506.27 294.616 1701.97 155.887 1784.96 155.887ZM6086.69 155.861C6122.61 155.861 6138.71 175.68 6135 217.794C6132.52 252.476 6131.28 284.682 6128.8 314.409C6216.75 313.171 6257.63 309.454 6296.02 309.454C6334.42 309.454 6346.81 323.08 6346.81 362.717V372.626C6346.81 412.263 6331.94 425.888 6291.07 425.888C6251.43 425.888 6208.08 423.411 6123.85 422.172C6118.9 532.412 6117.66 615.402 6120.13 688.482C6122.61 771.472 6148.62 804.916 6210.56 804.916C6307.17 804.916 6307.17 719.45 6350.52 719.449C6367.86 719.449 6377.77 734.313 6377.77 756.608C6377.77 886.667 6279.92 975.85 6139.95 975.851C5987.6 975.851 5909.56 892.86 5907.09 733.074C5904.61 636.459 5907.09 523.741 5912.04 419.694H5864.97C5826.57 419.694 5807.99 407.308 5807.99 380.058V376.342C5807.99 294.591 6003.7 155.862 6086.69 155.861ZM1192.91 292.062C1355.17 292.062 1479.04 391.155 1479.04 534.839C1479.04 570.76 1465.41 584.385 1423.3 598.01L1085.14 715.683C1124.78 776.376 1187.95 812.297 1264.75 812.297C1405.96 812.297 1419.58 721.875 1464.17 721.875C1481.51 721.875 1492.66 735.501 1492.66 756.558C1492.66 864.32 1372.51 975.8 1183 975.8C979.859 975.8 834.937 838.309 834.937 637.647C834.937 441.94 989.768 292.063 1192.91 292.062ZM4695.8 292.059C4858.06 292.059 4981.93 391.15 4981.93 534.834C4981.93 570.755 4968.3 584.381 4926.19 598.006L4588.04 715.678C4627.67 776.372 4690.85 812.293 4767.64 812.293C4908.85 812.293 4922.47 721.871 4967.07 721.871C4984.41 721.871 4995.55 735.497 4995.55 756.554C4995.55 864.316 4875.4 975.795 4685.89 975.795C4482.75 975.795 4337.83 838.304 4337.83 637.643C4337.83 441.935 4492.66 292.059 4695.8 292.059ZM7317.09 293.339C7511.55 293.339 7616.84 388.715 7647.81 626.536L7656.48 698.378C7671.34 812.334 7743.18 797.471 7743.18 842.062C7743.18 889.13 7651.52 965.928 7578.44 965.928C7537.57 965.928 7501.65 939.915 7473.16 879.222H7465.72C7414.94 943.632 7339.38 974.598 7240.29 974.598C7096.61 974.598 7007.42 901.517 7007.42 786.322C7007.42 659.98 7118.9 572.035 7291.07 572.035C7338.14 572.035 7387.69 578.229 7428.56 589.377L7422.37 533.638C7408.75 439.5 7376.54 393.67 7323.28 393.67C7220.47 393.67 7241.53 524.967 7130.05 524.967C7075.55 524.967 7042.11 494 7042.11 441.977C7042.11 354.032 7156.06 293.339 7317.09 293.339ZM7977.18 23.3174C8032.92 23.3174 8052.74 46.8515 8049.02 118.693C8037.88 347.844 8036.64 595.575 8042.83 797.476C8045.31 865.601 8101.05 866.84 8101.05 911.432C8101.05 948.591 8047.79 964.693 7933.83 964.693C7818.64 964.693 7767.85 948.591 7767.85 911.432C7767.85 871.795 7817.4 865.601 7821.11 801.191C7829.78 598.052 7829.78 413.492 7819.87 247.513C7814.92 163.285 7762.9 173.194 7762.9 132.318C7762.9 76.579 7902.86 23.3174 7977.18 23.3174ZM5535.42 292.059C5669.19 292.059 5741.04 367.616 5759.62 529.88C5767.05 602.96 5778.2 698.337 5790.58 797.429C5799.25 869.27 5852.51 868.032 5852.51 911.385C5852.51 947.306 5802.97 964.647 5693.97 964.647C5583.73 964.647 5530.46 948.544 5530.46 911.385C5530.46 869.271 5576.3 869.27 5571.34 801.145C5565.15 713.2 5556.48 633.926 5550.28 567.039C5539.14 475.379 5509.41 436.981 5443.76 436.98C5374.4 436.98 5318.66 493.959 5317.42 583.142C5313.7 650.029 5312.46 736.735 5316.18 811.054C5318.66 872.986 5360.77 871.748 5360.77 911.385C5360.77 946.067 5308.75 964.647 5202.22 964.647C5090.74 964.647 5042.44 948.544 5042.44 911.385C5042.44 871.748 5091.98 865.554 5096.94 801.145C5103.13 699.575 5104.37 605.437 5099.41 518.731C5094.46 436.981 5044.91 439.458 5044.91 399.821C5044.91 344.082 5179.93 292.059 5254.25 292.059C5314.94 292.059 5322.37 329.218 5313.7 418.401L5319.89 419.64C5364.49 335.411 5441.28 292.059 5535.42 292.059ZM6628.3 292.059C6691.47 292.059 6696.43 329.218 6685.28 440.696H6691.47C6726.16 352.752 6791.8 293.297 6874.79 293.297C6956.54 293.297 7011.05 347.798 7011.05 433.265C7011.05 505.107 6973.89 547.221 6911.95 547.221C6832.68 547.221 6840.11 472.901 6783.13 472.901C6727.39 472.901 6686.52 553.415 6686.52 662.416C6686.52 688.428 6686.52 726.826 6689 785.042C6692.71 864.316 6771.99 859.362 6771.99 911.385C6771.99 948.544 6717.48 964.647 6593.62 964.647C6469.75 964.647 6416.49 948.544 6416.49 911.385C6416.49 871.748 6464.8 865.554 6469.75 801.145C6475.95 699.575 6477.19 605.437 6472.23 518.731C6466.04 436.981 6418.97 439.458 6418.97 399.821C6418.97 344.082 6552.74 292.059 6628.3 292.059ZM452.108 45.5488C687.452 46.7875 818.75 154.55 818.75 349.019C818.75 541.01 682.498 652.489 445.915 652.489H294.8C296.038 697.081 296.038 745.388 299.754 793.695C305.947 864.298 385.22 859.344 385.221 911.367C385.221 951.004 334.436 964.63 193.229 964.63C50.7847 964.63 0 951.004 0 911.367C0.000244404 866.776 59.4549 865.537 63.1709 797.411C70.6028 595.511 70.6028 399.803 63.1709 209.051C59.4548 138.448 4.95543 139.686 4.95508 92.6182C4.95508 61.6519 32.2054 44.3105 92.8994 44.3105L452.108 45.5488ZM7333.19 647.594C7263.82 647.594 7221.71 683.515 7221.71 745.447C7221.71 814.812 7267.54 863.119 7338.14 863.119C7403.79 863.119 7452.1 819.766 7452.1 760.311C7452.1 694.662 7406.27 647.594 7333.19 647.594ZM3205.73 482.258C3270.51 482.258 3323.03 535.048 3323.03 600.169C3323.03 665.29 3270.51 718.081 3205.73 718.081C3140.94 718.081 3088.42 665.29 3088.42 600.169C3088.42 535.048 3140.94 482.258 3205.73 482.258ZM1171.85 393.632C1095.05 393.632 1044.27 459.281 1044.27 560.851C1044.27 581.908 1045.51 601.726 1049.22 620.306L1267.23 538.555C1287.04 531.123 1290.76 523.691 1290.76 508.827C1290.76 471.668 1257.32 393.632 1171.85 393.632ZM4674.74 393.628C4597.95 393.628 4547.16 459.276 4547.16 560.846C4547.16 581.903 4548.4 601.722 4552.12 620.302L4770.12 538.55C4789.94 531.118 4793.65 523.686 4793.65 508.822C4793.65 471.663 4760.21 393.628 4674.74 393.628ZM343.106 168.176C310.902 168.176 299.754 179.323 297.276 212.767C296.038 282.131 294.8 389.894 294.8 472.884C294.8 513.759 308.425 527.385 349.3 527.385H421.142C536.336 527.385 590.838 481.555 590.838 386.179C590.838 251.166 516.518 168.176 393.892 168.176H343.106ZM3108.44 146.722C3172.44 146.722 3224.33 198.877 3224.33 263.212C3224.33 327.547 3172.44 379.701 3108.44 379.701C3044.44 379.701 2992.55 327.547 2992.55 263.212C2992.55 198.877 3044.44 146.722 3108.44 146.722ZM2431.57 79.832C2494.72 79.8322 2545.91 131.293 2545.91 194.773C2545.91 258.254 2494.72 309.715 2431.57 309.715C2368.41 309.715 2317.22 258.254 2317.22 194.773C2317.22 131.293 2368.41 79.832 2431.57 79.832ZM2794.01 0C2855.16 0 2904.74 49.5145 2904.74 110.594C2904.74 171.673 2855.16 221.188 2794.01 221.188C2732.86 221.188 2683.29 171.673 2683.29 110.594C2683.29 49.5146 2732.87 0.000129605 2794.01 0Z"/>
+  </symbol>
+</svg>
+
+<div class="ds-page">
+
+  <!-- HERO -->
+  <div class="ds-hero">
+    <div class="ds-hero-eyebrow">Design system</div>
+    <h1>Pet <span>Central</span></h1>
+    <p class="ds-hero-sub">Source-of-truth design system. Every product, page, presentation, and document built under Pet Central references this file.</p>
+    <div class="ds-hero-meta">
+      <div class="ds-hero-meta-item">Version<strong>1.0</strong></div>
+      <div class="ds-hero-meta-item">Last updated<strong>April 2026</strong></div>
+      <div class="ds-hero-meta-item">Sections<strong>10</strong></div>
+      <div class="ds-hero-meta-item">Components<strong>12</strong></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="ds-nav">
+    <div class="ds-nav-inner">
+      <a href="#theme">Theme</a>
+      <a href="#brand">Brand mark</a>
+      <a href="#colour">Colour</a>
+      <a href="#dark-mode">Dark mode</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#shape">Shape</a>
+      <a href="#components">Components</a>
+      <a href="#motion">Motion</a>
+      <a href="#voice">Voice</a>
+      <a href="#foundations">Foundations</a>
+    </div>
+  </nav>
+
+  <!-- 1. VISUAL THEME -->
+  <section class="ds-section" id="theme">
+    <div class="ds-section-header">
+      <div class="ds-section-num">01</div>
+      <h2>Visual theme & atmosphere</h2>
+      <p>The feeling the interface creates before anyone reads a word.</p>
+    </div>
+
+    <div class="mood-grid">
+      <div class="mood-card full">
+        <h4>Atmosphere</h4>
+        <p>Pet Central feels like a calm, modern veterinary practice in Cape Town. Warm but unmistakably clinical, the sort of place you trust with your dog. Not playful pet-store kitsch, not sterile hospital white. Think the visual register of a modern wellness brand crossed with the practical clarity of a health-tracking app.</p>
+        <div class="mood-adjectives">
+          <span class="mood-adj">Reassuring</span>
+          <span class="mood-adj">Considered</span>
+          <span class="mood-adj">Bright but not loud</span>
+          <span class="mood-adj">Generous with whitespace</span>
+          <span class="mood-adj">Quietly competent</span>
+        </div>
+      </div>
+      <div class="mood-card">
+        <h4>What it is not</h4>
+        <div class="mood-nots">
+          <span class="mood-not">Cartoonish</span>
+          <span class="mood-not">Pawprint-laden</span>
+          <span class="mood-not">Pastel baby colours</span>
+          <span class="mood-not">Heavy gradients</span>
+          <span class="mood-not">Glassmorphism</span>
+          <span class="mood-not">AI-generic defaults</span>
+        </div>
+      </div>
+      <div class="mood-card mood-audience">
+        <h4>Designed for</h4>
+        <p>28 to 55 year old urban South African with disposable income who treats their pet as family. Uses Discovery Health, shops at Woolworths, listens to podcasts, and would be embarrassed by anything twee.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. BRAND MARK -->
+  <section class="ds-section" id="brand">
+    <div class="ds-section-header">
+      <div class="ds-section-num">02</div>
+      <h2>Brand mark</h2>
+      <p>The Pet Central wordmark lives in three fill colours: <strong>primary-deep</strong> for default use, <strong>primary</strong> as a softer mid-tone alternate, and <strong>cream</strong> for dark surfaces. Generous breathing room always.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Variants</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Three fill treatments, each paired with the backgrounds they're approved on. Anything outside this matrix needs design review.</p>
+
+      <h4 style="font-family:var(--font-header);font-size:16px;color:var(--brand-primary-deep);margin:8px 0 12px;letter-spacing:0.02em;">Primary · primary-deep fill</h4>
+      <div class="brand-variants-grid">
+        <div class="logo-stage on-cream">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption">primary-deep on cream</span>
+        </div>
+        <div class="logo-stage on-neutral">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption">primary-deep on neutral</span>
+        </div>
+      </div>
+
+      <h4 style="font-family:var(--font-header);font-size:16px;color:var(--brand-primary-deep);margin:24px 0 12px;letter-spacing:0.02em;">Secondary · primary fill</h4>
+      <div class="brand-variants-grid">
+        <div class="logo-stage on-cream">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-primary)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption">primary on cream</span>
+        </div>
+        <div class="logo-stage on-navy">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-primary)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption" style="color:rgba(255,252,251,0.6);">primary on primary-deep · tonal</span>
+        </div>
+      </div>
+
+      <h4 style="font-family:var(--font-header);font-size:16px;color:var(--brand-primary-deep);margin:24px 0 12px;letter-spacing:0.02em;">Inverse · cream fill</h4>
+      <div class="brand-variants-grid">
+        <div class="logo-stage on-navy">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-cream)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption">cream on primary-deep</span>
+        </div>
+        <div class="logo-stage on-primary">
+          <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-cream)"><use href="#pc-logo"/></svg>
+          <span class="logo-stage-caption">cream on primary</span>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px 18px;background:var(--cream-50);border:0.5px solid var(--navy-50);border-radius:var(--r-md);font-size:13px;color:var(--n600);max-width:640px;">
+        <strong style="color:var(--brand-primary-deep);">When to use which:</strong> Start with <em>primary-deep</em> for 90% of moments — navigation, footer, heroes, stationery. Reach for <em>primary</em> when the surface is already heavy (busy photography, dark card patterns) and the deep version feels too punchy. Use <em>cream</em> only on dark or saturated brand fills.
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Size tokens</h3>
+      <div class="logo-sizes">
+        <div class="logo-size-row">
+          <div class="logo-size-meta">
+            <div class="logo-size-tok">logo.xs</div>
+            <div class="logo-size-val">16px height</div>
+            <div class="logo-size-use">Inline mentions, dense UI</div>
+          </div>
+          <div class="logo-size-render">
+            <svg class="logo-svg" style="height:16px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+        </div>
+        <div class="logo-size-row">
+          <div class="logo-size-meta">
+            <div class="logo-size-tok">logo.sm</div>
+            <div class="logo-size-val">24px height</div>
+            <div class="logo-size-use">Nav bars, compact headers</div>
+          </div>
+          <div class="logo-size-render">
+            <svg class="logo-svg" style="height:24px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+        </div>
+        <div class="logo-size-row">
+          <div class="logo-size-meta">
+            <div class="logo-size-tok">logo.md</div>
+            <div class="logo-size-val">36px height</div>
+            <div class="logo-size-use">Standard nav, footers, email signatures</div>
+          </div>
+          <div class="logo-size-render">
+            <svg class="logo-svg" style="height:36px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+        </div>
+        <div class="logo-size-row">
+          <div class="logo-size-meta">
+            <div class="logo-size-tok">logo.lg</div>
+            <div class="logo-size-val">56px height</div>
+            <div class="logo-size-use">Page heroes, about pages, onboarding</div>
+          </div>
+          <div class="logo-size-render">
+            <svg class="logo-svg" style="height:56px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+        </div>
+        <div class="logo-size-row">
+          <div class="logo-size-meta">
+            <div class="logo-size-tok">logo.xl</div>
+            <div class="logo-size-val">88px height</div>
+            <div class="logo-size-use">Splash screens, brand moments, presentations</div>
+          </div>
+          <div class="logo-size-render">
+            <svg class="logo-svg" style="height:88px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Clear space</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:560px;">Minimum clear space around the mark equals the cap height of the 'P' (marked as x below). Nothing sits inside that boundary — not text, not other logos, not UI chrome.</p>
+      <div class="clear-space-demo">
+        <div class="clear-space-box">
+          <svg class="logo-svg" style="height:48px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Minimum size</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:560px;">Never render the wordmark below 16px in height. Below that, the letterforms collapse and legibility fails. Use the isolated "PC" monogram for smaller contexts (favicon, app icon).</p>
+      <div style="display:flex;gap:24px;align-items:flex-end;padding:24px;background:var(--n50);border-radius:var(--r-md);">
+        <div style="text-align:center;">
+          <svg class="logo-svg" style="height:16px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--n400);margin-top:12px;">16px — minimum</div>
+        </div>
+        <div style="text-align:center;opacity:0.4;">
+          <svg class="logo-svg" style="height:10px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--danger-text);margin-top:12px;">10px — too small</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Don'ts</h3>
+      <div class="logo-donts">
+        <div class="dont-card">
+          <div class="dont-stage">
+            <svg class="logo-svg" style="height:28px;transform:scaleY(1.6);" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't stretch or distort</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-stage">
+            <svg class="logo-svg" style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-terracotta)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't use unapproved colours</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-stage" style="background:var(--brand-terracotta);">
+            <svg class="logo-svg" style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't place on clashing backgrounds</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-stage">
+            <svg class="logo-svg" style="height:28px;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.35));" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't add shadows or effects</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-stage">
+            <svg class="logo-svg" style="height:28px;transform:rotate(-8deg);" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't rotate or tilt</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-stage" style="background-image:repeating-linear-gradient(45deg, var(--n100), var(--n100) 4px, var(--n200) 4px, var(--n200) 8px);">
+            <svg class="logo-svg" style="height:28px;" viewBox="0 0 8102 1033" fill="var(--brand-primary-deep)"><use href="#pc-logo"/></svg>
+          </div>
+          <div class="dont-label">Don't place on busy patterns</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. COLOUR SYSTEM -->
+  <section class="ds-section" id="colour">
+    <div class="ds-section-header">
+      <div class="ds-section-num">03</div>
+      <h2>Colour system</h2>
+      <p>Three layers: brand, functional, neutral. Brand colours are rare and earn their impact.</p>
+    </div>
+
+    <!-- Brand -->
+    <div class="ds-sub">
+      <h3>Brand</h3>
+      <div class="colour-row brand">
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#48658D;"></div>
+          <div class="swatch-info">
+            <div class="swatch-token">brand.primary</div>
+            <div class="swatch-hex">#48658D</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#163E6F;"></div>
+          <div class="swatch-info">
+            <div class="swatch-token">brand.primary-deep</div>
+            <div class="swatch-hex">#163E6F</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FFFCFB;"></div>
+          <div class="swatch-info">
+            <div class="swatch-token">brand.cream</div>
+            <div class="swatch-hex">#FFFCFB</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#F87644;"></div>
+          <div class="swatch-info">
+            <div class="swatch-token">brand.terracotta</div>
+            <div class="swatch-hex">#F87644</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Functional -->
+    <div class="ds-sub">
+      <h3>Functional (semantic)</h3>
+      <div class="colour-row functional">
+        <div class="func-swatch">
+          <div class="func-swatch-header" style="background:var(--info-bg);color:var(--info-text);">Info</div>
+          <div class="func-swatch-rows">
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#E6F1FB;border:1px solid #ccc;"></span> bg #E6F1FB</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#185FA5;"></span> border #185FA5</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#0C447C;"></span> text #0C447C</div>
+          </div>
+        </div>
+        <div class="func-swatch">
+          <div class="func-swatch-header" style="background:var(--success-bg);color:var(--success-text);">Success</div>
+          <div class="func-swatch-rows">
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#DEECE4;border:1px solid #ccc;"></span> bg #DEECE4</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#2A7D62;"></span> border #2A7D62</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#0D4434;"></span> text #0D4434</div>
+          </div>
+        </div>
+        <div class="func-swatch">
+          <div class="func-swatch-header" style="background:var(--warning-bg);color:var(--warning-text);">Warning</div>
+          <div class="func-swatch-rows">
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#FAEEDA;border:1px solid #ccc;"></span> bg #FAEEDA</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#BA7517;"></span> border #BA7517</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#633806;"></span> text #633806</div>
+          </div>
+        </div>
+        <div class="func-swatch">
+          <div class="func-swatch-header" style="background:var(--danger-bg);color:var(--danger-text);">Danger</div>
+          <div class="func-swatch-rows">
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#FCEBEB;border:1px solid #ccc;"></span> bg #FCEBEB</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#A32D2D;"></span> border #A32D2D</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#791F1F;"></span> text #791F1F</div>
+          </div>
+        </div>
+        <div class="func-swatch">
+          <div class="func-swatch-header" style="background:var(--seasonal-bg);color:var(--seasonal-text);">Seasonal</div>
+          <div class="func-swatch-rows">
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#EEEDFE;border:1px solid #ccc;"></span> bg #EEEDFE</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#534AB7;"></span> border #534AB7</div>
+            <div class="func-swatch-row"><span class="func-swatch-dot" style="background:#3C3489;"></span> text #3C3489</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cream neutrals -->
+    <div class="ds-sub">
+      <h3>Neutral — cream family</h3>
+      <p style="font-size:14px;color:var(--navy-100);margin-bottom:20px;max-width:560px;">Warm off-whites for page backgrounds, card surfaces, and inset panels. Connects to brand.cream.</p>
+      <div class="colour-row neutral">
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FFFFFE;border-bottom:0.5px solid var(--navy-50);"></div>
+          <div class="swatch-info"><div class="swatch-token">cream-neutral.0</div><div class="swatch-hex">#FFFFFE</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FFFBF7;"></div>
+          <div class="swatch-info"><div class="swatch-token">cream-neutral.50</div><div class="swatch-hex">#FFFBF7</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FEF7EF;"></div>
+          <div class="swatch-info"><div class="swatch-token">cream-neutral.100</div><div class="swatch-hex">#FEF7EF</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FDEEDF;"></div>
+          <div class="swatch-info"><div class="swatch-token">cream-neutral.200</div><div class="swatch-hex">#FDEEDF</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navy neutrals -->
+    <div class="ds-sub">
+      <h3>Neutral — navy family</h3>
+      <p style="font-size:14px;color:var(--navy-100);margin-bottom:20px;max-width:560px;">Cool tints used for borders, hairlines, muted text, and subtle backgrounds on cooler surfaces. Culminates in brand.primary.</p>
+      <div class="colour-row neutral">
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#FBFCFD;border-bottom:0.5px solid var(--navy-50);"></div>
+          <div class="swatch-info"><div class="swatch-token">navy-neutral.0</div><div class="swatch-hex">#FBFCFD</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#E2E6ED;"></div>
+          <div class="swatch-info"><div class="swatch-token">navy-neutral.50</div><div class="swatch-hex">#E2E6ED</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#A3B2C6;"></div>
+          <div class="swatch-info"><div class="swatch-token">navy-neutral.100</div><div class="swatch-hex">#A3B2C6</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#48658D;"></div>
+          <div class="swatch-info"><div class="swatch-token">navy-neutral.200</div><div class="swatch-hex">#48658D</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage guide -->
+    <div class="ds-sub">
+      <h3>When to use which</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text"><strong>Cream family</strong> — page backgrounds, card surfaces, inset panels, warm highlight moments</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text"><strong>Navy family</strong> — borders, dividers, muted text, icon strokes, cool backgrounds</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text"><strong>Pair them</strong> — cream-50 background with navy-50 hairline borders reads calm and clinical</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text"><strong>Don't stack warm on warm</strong> — cream cards on cream backgrounds need navy hairlines to separate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colour rules -->
+    <div class="ds-sub">
+      <h3>Colour rules</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon do">&#10003;</div>
+          <div class="rule-text">One brand colour per surface. Navy leads or terracotta leads, never both fighting.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text">No raw black. Text is brand.primary-deep, never #000000.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text">No raw white text on coloured fills. Use the dark text token from the same family.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon dont">&#10005;</div>
+          <div class="rule-text">Red is reserved for danger states only. Never decorative.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DARK MODE -->
+  <section class="ds-section" id="dark-mode">
+    <div class="ds-section-header">
+      <div class="ds-section-num">04</div>
+      <h2>Dark mode</h2>
+      <p>Dark mode is navy-first, not neutral-first. The brand stays visible in the dark.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Dark palette</h3>
+      <div class="dark-stage">
+        <div class="dark-stage-label">Dark mode surfaces</div>
+        <div class="dm-palette-grid">
+          <div class="dm-swatch">
+            <div class="dm-swatch-fill" style="background:#0D2A4D;"></div>
+            <div class="dm-swatch-info">
+              <div class="dm-swatch-token">dark.surface</div>
+              <div class="dm-swatch-hex">#0D2A4D</div>
+            </div>
+          </div>
+          <div class="dm-swatch">
+            <div class="dm-swatch-fill" style="background:#163E6F;"></div>
+            <div class="dm-swatch-info">
+              <div class="dm-swatch-token">dark.card</div>
+              <div class="dm-swatch-hex">#163E6F</div>
+            </div>
+          </div>
+          <div class="dm-swatch">
+            <div class="dm-swatch-fill" style="background:#1E4C7F;"></div>
+            <div class="dm-swatch-info">
+              <div class="dm-swatch-token">dark.elevated</div>
+              <div class="dm-swatch-hex">#1E4C7F</div>
+            </div>
+          </div>
+          <div class="dm-swatch">
+            <div class="dm-swatch-fill" style="background:#FFFCFB;"></div>
+            <div class="dm-swatch-info">
+              <div class="dm-swatch-token">dark.text</div>
+              <div class="dm-swatch-hex">#FFFCFB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Components in dark mode</h3>
+      <div class="dark-stage">
+        <div class="dark-stage-label">Live preview</div>
+
+        <div class="dm-components">
+          <!-- Card -->
+          <div class="dm-card">
+            <div class="dm-card-label">Card</div>
+            <h4>Bella's daily summary</h4>
+            <p>Tick treatment due tomorrow. Weight stable at 7.4 kg. Next vet check in 14 days.</p>
+            <div style="display:flex;gap:10px;margin-top:16px;">
+              <button class="dm-btn-primary">View full profile</button>
+              <button class="dm-btn-secondary">Snooze</button>
+            </div>
+          </div>
+
+          <!-- Metrics -->
+          <div class="dm-card">
+            <div class="dm-card-label">Metric tiles</div>
+            <div class="dm-metric">
+              <div class="dm-metric-label">Weight</div>
+              <div class="dm-metric-value">7.4 kg</div>
+            </div>
+            <div class="dm-metric">
+              <div class="dm-metric-label">Wellness score</div>
+              <div class="dm-metric-value" style="color:var(--brand-terracotta);">92</div>
+            </div>
+            <div class="dm-metric" style="margin-bottom:0;">
+              <div class="dm-metric-label">Active reminders</div>
+              <div class="dm-metric-value">3</div>
+            </div>
+          </div>
+
+          <!-- Input -->
+          <div class="dm-card">
+            <div class="dm-card-label">Input</div>
+            <label class="dm-input-label">Pet's name</label>
+            <input type="text" class="dm-input" placeholder="e.g. Bella" value="Bella">
+            <div style="font-size:13px;color:var(--dm-text-muted);margin-top:8px;">This is how we'll refer to your pet.</div>
+          </div>
+
+          <!-- Badges -->
+          <div class="dm-card">
+            <div class="dm-card-label">Badges & buttons</div>
+            <div class="dm-badge-row" style="margin-bottom:16px;">
+              <span class="dm-badge primary">Verified</span>
+              <span class="dm-badge accent">New</span>
+              <span class="dm-badge">Tick season</span>
+              <span class="dm-badge">Annual care</span>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button class="dm-btn-primary">Primary</button>
+              <button class="dm-btn-secondary">Secondary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Rules</h3>
+      <div class="dark-stage">
+        <div class="dark-stage-label">When & how</div>
+        <div class="dm-rules">
+          <div class="dm-rule">
+            <strong>Navy, not black.</strong>
+            Never use pure black as the page background. The brand's dark surface is `brand.primary-deep` (#163E6F) deepened to #0D2A4D.
+          </div>
+          <div class="dm-rule">
+            <strong>Cream text, not white.</strong>
+            Use `brand.cream` (#FFFCFB) for body text, not pure white. Pure white vibrates against saturated navy.
+          </div>
+          <div class="dm-rule">
+            <strong>Elevation via tint, not shadow.</strong>
+            Elevated surfaces shift lighter, not shadow-heavier. Card = #163E6F, elevated = #1E4C7F.
+          </div>
+          <div class="dm-rule">
+            <strong>Borders are cream at 14%.</strong>
+            Dark mode borders use `rgba(255, 252, 251, 0.14)` — subtle enough to recede, bright enough to read.
+          </div>
+          <div class="dm-rule">
+            <strong>Primary buttons invert.</strong>
+            On dark, primary becomes `brand.cream` background with `brand.primary-deep` text. Makes the CTA pop without shouting.
+          </div>
+          <div class="dm-rule">
+            <strong>Terracotta is the accent.</strong>
+            Stat highlights, badges, attention moments — `brand.terracotta` (#F87644) reads warmly against navy and draws the eye.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TYPOGRAPHY -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-header">
+      <div class="ds-section-num">05</div>
+      <h2>Typography</h2>
+      <p>Two families in clear hierarchy. Inter works, Source Serif warms.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Families</h3>
+      <div class="type-families">
+        <div class="type-family-card">
+          <div class="label">Headers</div>
+          <div class="sample" style="font-family:var(--font-header);font-weight:700;">Kefir Bold</div>
+          <div class="name">fallback: Jost, system-ui</div>
+        </div>
+        <div class="type-family-card">
+          <div class="label">Display & UI</div>
+          <div class="sample" style="font-family:var(--font-ui);">Jost</div>
+          <div class="name">system-ui, -apple-system, sans-serif</div>
+        </div>
+        <div class="type-family-card">
+          <div class="label">Arrows & numbers</div>
+          <div class="sample" style="font-family:var(--font-numbers);font-variant-numeric:tabular-nums;">Inter 0123</div>
+          <div class="name">system-ui, sans-serif</div>
+        </div>
+        <div class="type-family-card">
+          <div class="label">Code & data</div>
+          <div class="sample" style="font-family:var(--font-mono);">JetBrains Mono</div>
+          <div class="name">ui-monospace, monospace</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Scale</h3>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">display</div><div class="type-specs">Kefir · 56px / 1.05 / 700</div></div>
+        <div class="type-render" style="font-family:var(--font-header);font-size:56px;line-height:1.05;font-weight:700;letter-spacing:-0.01em;">Hero statements</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">h1</div><div class="type-specs">Kefir · 38px / 1.15 / 700</div></div>
+        <div class="type-render" style="font-family:var(--font-header);font-size:38px;line-height:1.15;font-weight:700;">Page titles</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">h2</div><div class="type-specs">Kefir · 28px / 1.2 / 700</div></div>
+        <div class="type-render" style="font-family:var(--font-header);font-size:28px;line-height:1.2;font-weight:700;">Section headings</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">h3</div><div class="type-specs">Kefir · 20px / 1.3 / 700</div></div>
+        <div class="type-render" style="font-family:var(--font-header);font-size:20px;line-height:1.3;font-weight:700;">Subsection headings, card titles</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">body-lg</div><div class="type-specs">Jost · 17px / 1.6 / 400</div></div>
+        <div class="type-render" style="font-size:17px;line-height:1.6;">Marketing body text sits at this size for comfortable reading.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">body</div><div class="type-specs">Jost · 15px / 1.6 / 400</div></div>
+        <div class="type-render" style="font-size:15px;line-height:1.6;">Default UI body. The workhorse of the interface.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">body-sm</div><div class="type-specs">Jost · 13px / 1.5 / 400</div></div>
+        <div class="type-render" style="font-size:13px;line-height:1.5;color:var(--n400);">Secondary text, captions, helper text below inputs.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">label</div><div class="type-specs">Jost · 12px / 1.4 / 500</div></div>
+        <div class="type-render" style="font-size:12px;line-height:1.4;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:var(--n400);">Field labels, badges, metadata</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">stat</div><div class="type-specs">Inter · 24px / 1.1 / 500</div></div>
+        <div class="type-render" style="font-family:var(--font-numbers);font-size:24px;line-height:1.1;font-weight:500;font-variant-numeric:tabular-nums;">7.4 kg</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">stat-lg</div><div class="type-specs">Inter · 36px / 1.0 / 500</div></div>
+        <div class="type-render" style="font-family:var(--font-numbers);font-size:36px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;">92</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta"><div class="type-token">mono</div><div class="type-specs">JetBrains Mono · 13px</div></div>
+        <div class="type-render" style="font-family:var(--font-mono);font-size:13px;line-height:1.5;color:var(--n600);">pet_id: PC-00482 &nbsp; status: active</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SPACING -->
+  <section class="ds-section" id="spacing">
+    <div class="ds-section-header">
+      <div class="ds-section-num">06</div>
+      <h2>Spacing & layout</h2>
+      <p>A 4px base grid with a gentle exponential scale.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Spacing tokens</h3>
+      <div class="spacing-tokens">
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.1</span><br><span class="val">4px</span></div><div class="spacing-bar" style="width:4px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.2</span><br><span class="val">8px</span></div><div class="spacing-bar" style="width:8px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.3</span><br><span class="val">12px</span></div><div class="spacing-bar" style="width:12px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.4</span><br><span class="val">16px</span></div><div class="spacing-bar" style="width:16px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.5</span><br><span class="val">20px</span></div><div class="spacing-bar" style="width:20px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.6</span><br><span class="val">24px</span></div><div class="spacing-bar" style="width:24px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.8</span><br><span class="val">32px</span></div><div class="spacing-bar" style="width:32px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.12</span><br><span class="val">48px</span></div><div class="spacing-bar" style="width:48px;"></div></div>
+        <div class="spacing-row"><div class="spacing-label"><span class="tok">space.16</span><br><span class="val">64px</span></div><div class="spacing-bar" style="width:64px;"></div></div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Layout widths</h3>
+      <div class="comp-row" style="gap:24px;">
+        <div class="metric-demo"><div class="metric-label">App surfaces</div><div class="metric-value">720px</div></div>
+        <div class="metric-demo"><div class="metric-label">Marketing</div><div class="metric-value">1120px</div></div>
+        <div class="metric-demo"><div class="metric-label">Dashboards</div><div class="metric-value">1440px</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SHAPE & RADIUS -->
+  <section class="ds-section" id="shape">
+    <div class="ds-section-header">
+      <div class="ds-section-num">07</div>
+      <h2>Shape, radius & elevation</h2>
+      <p>Flat. No shadows except focus rings. Depth via border, surface colour, and spacing.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Radius tokens</h3>
+      <div class="radius-row">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:0;"></div>
+          <span class="tok">radius.none</span><span class="val">0</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:4px;"></div>
+          <span class="tok">radius.sm</span><span class="val">4px</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:8px;"></div>
+          <span class="tok">radius.md</span><span class="val">8px</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:12px;"></div>
+          <span class="tok">radius.lg</span><span class="val">12px</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:16px;"></div>
+          <span class="tok">radius.xl</span><span class="val">16px</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:9999px;"></div>
+          <span class="tok">radius.full</span><span class="val">9999px</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Border styles</h3>
+      <div class="border-examples">
+        <div class="border-ex default">Default — 0.5px neutral.200</div>
+        <div class="border-ex emphasis">Emphasis — 0.5px neutral.400</div>
+        <div class="border-ex featured">Featured — 2px brand.primary</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. COMPONENTS -->
+  <section class="ds-section" id="components">
+    <div class="ds-section-header">
+      <div class="ds-section-num">08</div>
+      <h2>Components</h2>
+      <p>12 components that cover 90% of UI needs. Build these first.</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="comp-group">
+      <div class="comp-group-label">Buttons</div>
+      <div class="comp-row" style="margin-bottom:16px;">
+        <button class="btn-demo btn-primary-demo">Primary action</button>
+        <button class="btn-demo btn-secondary-demo">Secondary</button>
+        <button class="btn-demo btn-ghost-demo">Ghost</button>
+        <button class="btn-demo btn-destructive-demo">Delete</button>
+      </div>
+      <div class="comp-row">
+        <button class="btn-demo btn-primary-demo btn-touch">Touch primary (44px)</button>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="comp-group">
+      <div class="comp-group-label">Card</div>
+      <div style="max-width:400px;">
+        <div class="card-demo">
+          <h4>Bella's daily summary</h4>
+          <p>Tick treatment due tomorrow. Weight stable at 7.4 kg. Next vet check in 14 days.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="comp-group">
+      <div class="comp-group-label">Metric cards</div>
+      <div class="comp-row">
+        <div class="metric-demo"><div class="metric-label">Weight</div><div class="metric-value">7.4 kg</div></div>
+        <div class="metric-demo"><div class="metric-label">Wellness score</div><div class="metric-value" style="color:var(--brand-primary);">92</div></div>
+        <div class="metric-demo"><div class="metric-label">Days until check-up</div><div class="metric-value">14</div></div>
+        <div class="metric-demo"><div class="metric-label">Active reminders</div><div class="metric-value">3</div></div>
+      </div>
+    </div>
+
+    <!-- Reminders -->
+    <div class="comp-group">
+      <div class="comp-group-label">Reminder items</div>
+      <div style="max-width:560px;">
+        <div class="reminder-demo warning">
+          <div>
+            <div class="reminder-title">Tick treatment is due tomorrow</div>
+            <div class="reminder-sub">Bravecto — last applied 27 Feb</div>
+          </div>
+          <div class="reminder-actions">
+            <button class="reminder-btn">Snooze</button>
+            <button class="reminder-btn">Done</button>
+          </div>
+        </div>
+        <div class="reminder-demo info">
+          <div>
+            <div class="reminder-title">Vet check-up in 14 days</div>
+            <div class="reminder-sub">Annual wellness — Dr Patel, Claremont</div>
+          </div>
+          <div class="reminder-actions">
+            <button class="reminder-btn">Reschedule</button>
+          </div>
+        </div>
+        <div class="reminder-demo seasonal">
+          <div>
+            <div class="reminder-title">Fireworks season starts next week</div>
+            <div class="reminder-sub">Consider anxiety support for noise-sensitive pets</div>
+          </div>
+          <div class="reminder-actions">
+            <button class="reminder-btn">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="comp-group">
+      <div class="comp-group-label">Input</div>
+      <div class="input-group">
+        <label class="input-label">Pet's name</label>
+        <input type="text" class="input-demo" placeholder="e.g. Bella" value="Bella">
+        <div class="input-helper">This is how we'll refer to your pet throughout the app.</div>
+      </div>
+    </div>
+
+    <!-- Avatars -->
+    <div class="comp-group">
+      <div class="comp-group-label">Avatars</div>
+      <div class="comp-row" style="gap:20px;">
+        <div style="text-align:center;">
+          <div class="avatar-demo avatar-32">B</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--n400);margin-top:8px;">32px</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="avatar-demo avatar-44">B</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--n400);margin-top:8px;">44px</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="avatar-demo avatar-72">B</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--n400);margin-top:8px;">72px</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="comp-group">
+      <div class="comp-group-label">Badges / pills</div>
+      <div class="comp-row">
+        <span class="badge-demo badge-info">Vet appointment</span>
+        <span class="badge-demo badge-success">Healthy range</span>
+        <span class="badge-demo badge-warning">Due soon</span>
+        <span class="badge-demo badge-danger">Overdue</span>
+        <span class="badge-demo badge-seasonal">Tick season</span>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="comp-group">
+      <div class="comp-group-label">Progress bar</div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width:92%;"></div></div>
+          <span class="progress-val">92%</span>
+          <span style="font-size:13px;color:var(--n400);">Wellness score</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width:45%;background:var(--warning-border);"></div></div>
+          <span class="progress-val">45%</span>
+          <span style="font-size:13px;color:var(--n400);">Profile completion</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width:12%;background:var(--danger-border);"></div></div>
+          <span class="progress-val">12%</span>
+          <span style="font-size:13px;color:var(--n400);">Tick protection remaining</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="comp-group">
+      <div class="comp-group-label">Empty state</div>
+      <div class="empty-demo">
+        <div class="empty-illustration">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9z"/><path d="M10 21a2 2 0 004 0"/></svg>
+        </div>
+        <h4>No reminders yet</h4>
+        <p>Log Bella's last vet visit to start tracking health milestones and care schedules.</p>
+        <button class="btn-demo btn-primary-demo">Add first reminder</button>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="comp-group">
+      <div class="comp-group-label">Toast</div>
+      <div class="comp-row" style="gap:20px;">
+        <div class="toast-demo">
+          <span class="toast-dot" style="background:var(--success-border);"></span>
+          Reminder snoozed
+          <span class="toast-dismiss">&times;</span>
+        </div>
+        <div class="toast-demo">
+          <span class="toast-dot" style="background:var(--danger-border);"></span>
+          Couldn't save. Check your connection and try again.
+          <span class="toast-dismiss">&times;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. MOTION -->
+  <section class="ds-section" id="motion">
+    <div class="ds-section-header">
+      <div class="ds-section-num">09</div>
+      <h2>Motion</h2>
+      <p>Pet Central moves quietly. No bounces, no springs, no parallax. Hover each token to preview.</p>
+    </div>
+
+    <div class="motion-tokens">
+      <div class="motion-token">
+        <div class="motion-bar-track"><div class="motion-bar-fill fast"></div></div>
+        <div class="motion-info"><div class="motion-tok">motion.fast</div><div class="motion-desc">120ms — hover states, focus rings</div></div>
+      </div>
+      <div class="motion-token">
+        <div class="motion-bar-track"><div class="motion-bar-fill base"></div></div>
+        <div class="motion-info"><div class="motion-tok">motion.base</div><div class="motion-desc">200ms — default transitions, modal open</div></div>
+      </div>
+      <div class="motion-token">
+        <div class="motion-bar-track"><div class="motion-bar-fill slow"></div></div>
+        <div class="motion-info"><div class="motion-tok">motion.slow</div><div class="motion-desc">320ms — page transitions, drawer slide</div></div>
+      </div>
+      <div class="motion-token">
+        <div class="motion-bar-track"><div class="motion-bar-fill ease-out-demo"></div></div>
+        <div class="motion-info"><div class="motion-tok">ease.out</div><div class="motion-desc">cubic-bezier(0.16, 1, 0.3, 1) — fast start, gentle settle</div></div>
+      </div>
+      <div class="motion-token">
+        <div class="motion-bar-track"><div class="motion-bar-fill ease-inout-demo"></div></div>
+        <div class="motion-info"><div class="motion-tok">ease.inout</div><div class="motion-desc">cubic-bezier(0.65, 0, 0.35, 1) — two-state toggles</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. VOICE & COPY -->
+  <section class="ds-section" id="voice">
+    <div class="ds-section-header">
+      <div class="ds-section-num">10</div>
+      <h2>Voice & copy</h2>
+      <p>Calm, warm, plainspoken. Like a vet nurse who's been doing this for fifteen years.</p>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Tone</h3>
+      <div class="voice-grid">
+        <div class="voice-card do">
+          <div class="voice-card-label">Do</div>
+          <ul>
+            <li>South African English — "behaviour," "favourite," currency as R489</li>
+            <li>Pet name first — "Bella's vaccination is due"</li>
+            <li>Action-oriented — "Reorder Bravecto"</li>
+            <li>Specific — "Tick treatment due tomorrow"</li>
+            <li>Sentence case everywhere — headings, buttons, labels</li>
+          </ul>
+        </div>
+        <div class="voice-card dont">
+          <div class="voice-card-label">Never</div>
+          <ul>
+            <li>"Fur baby," "pawrent," "doggo," "pupper"</li>
+            <li>Exclamation marks (except genuinely celebratory, max one per screen)</li>
+            <li>Emoji in body copy</li>
+            <li>Second-person plural ("we") — speak as a calm individual</li>
+            <li>Fear-based copy — "Don't let your pet get sick!"</li>
+            <li>Mid-sentence bolding</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub">
+      <h3>Microcopy patterns</h3>
+      <div style="background:var(--n0);border:0.5px solid var(--n200);border-radius:var(--r-lg);overflow:hidden;">
+        <table class="micro-table">
+          <thead>
+            <tr><th>Context</th><th>Pattern</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Reminder title</td><td>[What] [is/are] due [when]</td><td>Tick treatment is due tomorrow</td></tr>
+            <tr><td>Empty state</td><td>No [thing] yet + next step</td><td>No reminders yet. Log Bella's last vet visit to start tracking.</td></tr>
+            <tr><td>Confirmation</td><td>Past-tense verb + thing</td><td>Reorder placed</td></tr>
+            <tr><td>Error</td><td>What happened + what to do</td><td>Couldn't save. Check your connection and try again.</td></tr>
+            <tr><td>Loading</td><td>Specific to action</td><td>Saving</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. FOUNDATIONS -->
+  <section class="ds-section" id="foundations">
+    <div class="ds-section-header">
+      <div class="ds-section-num">11</div>
+      <h2>Foundations</h2>
+      <p>The plumbing — elevation, focus, layers, widths, breakpoints, charts, icons. Tokens most people never see, but that every component leans on.</p>
+    </div>
+
+    <!-- Elevation -->
+    <div class="ds-sub">
+      <h3>Elevation</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Navy-tinted shadows, not black. Keeps elevated surfaces inside the brand. Use sparingly — the system is flat by default.</p>
+      <div class="elevation-grid">
+        <div class="elevation-card">
+          <div class="elevation-tok">shadow.none</div>
+          <div class="elevation-use">Flat surfaces, inline cards, default state</div>
+        </div>
+        <div class="elevation-card s-sm">
+          <div class="elevation-tok">shadow.sm</div>
+          <div class="elevation-use">Hover lift on product cards, sticky nav separator</div>
+        </div>
+        <div class="elevation-card s-md">
+          <div class="elevation-tok">shadow.md</div>
+          <div class="elevation-use">Dropdowns, inline popovers, small menus</div>
+        </div>
+        <div class="elevation-card s-lg">
+          <div class="elevation-tok">shadow.lg</div>
+          <div class="elevation-use">Modals, sheets, detail overlays</div>
+        </div>
+        <div class="elevation-card s-xl">
+          <div class="elevation-tok">shadow.xl</div>
+          <div class="elevation-use">Full-screen overlays, onboarding splash</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Focus ring -->
+    <div class="ds-sub">
+      <h3>Focus ring</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">One focus treatment for every interactive element. 3px primary-navy outline with 2px offset, triggered on <code style="font-family:var(--font-mono);font-size:12px;color:var(--brand-primary-deep);background:var(--cream-100);padding:2px 6px;border-radius:4px;">:focus-visible</code>.</p>
+      <div class="focus-ring-demo">
+        <button class="focus-demo-btn is-focused" type="button">Button · focused</button>
+        <input class="focus-demo-input is-focused" type="text" value="Input · focused" />
+        <a href="#foundations" class="focus-demo-link is-focused">Link · focused</a>
+        <button class="focus-demo-btn" type="button">Tab to focus</button>
+        <input class="focus-demo-input" type="text" placeholder="Tab to focus" />
+      </div>
+      <div class="token-table" style="margin-top:20px;display:grid;grid-template-columns:200px 160px 1fr;gap:0;background:var(--cream-0);border:0.5px solid var(--navy-50);border-radius:var(--r-lg);overflow:hidden;font-size:13px;">
+        <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--navy-100);padding:10px 16px;background:var(--cream-50);border-bottom:0.5px solid var(--navy-50);">Token</div>
+        <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--navy-100);padding:10px 16px;background:var(--cream-50);border-bottom:0.5px solid var(--navy-50);">Value</div>
+        <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--navy-100);padding:10px 16px;background:var(--cream-50);border-bottom:0.5px solid var(--navy-50);">Use</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary-deep);">focus.ring-color</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary-deep);">#48658D</div>
+        <div style="padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary);">Outline colour — brand primary navy</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary-deep);">focus.ring-width</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary-deep);">3px</div>
+        <div style="padding:10px 16px;border-bottom:0.5px solid var(--navy-50);color:var(--brand-primary);">Thickness — wide enough for low-vision users</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;color:var(--brand-primary-deep);">focus.ring-offset</div>
+        <div style="font-family:var(--font-mono);padding:10px 16px;color:var(--brand-primary-deep);">2px</div>
+        <div style="padding:10px 16px;color:var(--brand-primary);">Gap between element and ring — keeps shape readable</div>
+      </div>
+    </div>
+
+    <!-- Z-index -->
+    <div class="ds-sub">
+      <h3>Z-index layers</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Nine rungs, 100 apart. Never use raw z-index values in components — always reference a token.</p>
+      <table class="zindex-table">
+        <thead>
+          <tr><th>Token</th><th>Value</th><th>Layer</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tok">z.base</td><td class="num">0</td><td>Default stacking context</td></tr>
+          <tr><td class="tok">z.dropdown</td><td class="num">100</td><td>Select menus, autocomplete</td></tr>
+          <tr><td class="tok">z.sticky</td><td class="num">200</td><td>Sticky headers, sticky filters</td></tr>
+          <tr><td class="tok">z.fixed</td><td class="num">300</td><td>Fixed positioned elements (floating CTAs)</td></tr>
+          <tr><td class="tok">z.overlay</td><td class="num">400</td><td>Modal backdrop, sheet scrim</td></tr>
+          <tr><td class="tok">z.modal</td><td class="num">500</td><td>Modal / sheet content</td></tr>
+          <tr><td class="tok">z.popover</td><td class="num">600</td><td>Popovers anchored above modals</td></tr>
+          <tr><td class="tok">z.toast</td><td class="num">700</td><td>Toast notifications</td></tr>
+          <tr><td class="tok">z.tooltip</td><td class="num">800</td><td>Tooltips — always on top</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Content widths -->
+    <div class="ds-sub">
+      <h3>Content widths</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Named max-widths for page content. Bars below are drawn to scale against <em>content.wide</em>.</p>
+      <div class="container-width-demos">
+        <div class="container-width-row">
+          <div class="container-width-meta">
+            <div class="container-width-tok">content.narrow</div>
+            <div class="container-width-val">640px</div>
+          </div>
+          <div style="flex:1;"><div class="container-width-bar narrow"></div></div>
+          <div class="container-width-use">Prose, blog posts, long-form reading</div>
+        </div>
+        <div class="container-width-row">
+          <div class="container-width-meta">
+            <div class="container-width-tok">content.default</div>
+            <div class="container-width-val">1120px</div>
+          </div>
+          <div style="flex:1;"><div class="container-width-bar default"></div></div>
+          <div class="container-width-use">Marketing pages, standard app shell</div>
+        </div>
+        <div class="container-width-row">
+          <div class="container-width-meta">
+            <div class="container-width-tok">content.wide</div>
+            <div class="container-width-val">1440px</div>
+          </div>
+          <div style="flex:1;"><div class="container-width-bar wide"></div></div>
+          <div class="container-width-use">Dashboards, product grids, data tables</div>
+        </div>
+        <div class="container-width-row">
+          <div class="container-width-meta">
+            <div class="container-width-tok">content.full</div>
+            <div class="container-width-val">100%</div>
+          </div>
+          <div style="flex:1;"><div class="container-width-bar full"></div></div>
+          <div class="container-width-use">Edge-to-edge hero, full-bleed imagery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breakpoints -->
+    <div class="ds-sub">
+      <h3>Breakpoints</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Four break points, mobile-first. CSS custom properties can't be used inside <code style="font-family:var(--font-mono);font-size:12px;color:var(--brand-primary-deep);background:var(--cream-100);padding:2px 6px;border-radius:4px;">@media</code> queries directly — these are documentation tokens. Build tools (PostCSS / Sass) should reference the same values.</p>
+      <div class="bp-grid">
+        <div class="bp-card">
+          <div class="bp-tok">bp.sm</div>
+          <div class="bp-val">480<small>px</small></div>
+          <div class="bp-use">Large phone, landscape mobile</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-tok">bp.md</div>
+          <div class="bp-val">768<small>px</small></div>
+          <div class="bp-use">Tablet portrait, small laptop</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-tok">bp.lg</div>
+          <div class="bp-val">1024<small>px</small></div>
+          <div class="bp-use">Desktop — default target</div>
+        </div>
+        <div class="bp-card">
+          <div class="bp-tok">bp.xl</div>
+          <div class="bp-val">1440<small>px</small></div>
+          <div class="bp-use">Wide desktop, dashboards</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart palette -->
+    <div class="ds-sub">
+      <h3>Chart palette</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Eight categorical colours for data viz. Ordered by legibility — reach for <em>chart.1</em> and <em>chart.2</em> first, extend as series grow.</p>
+      <div class="chart-preview-grid">
+        <div class="chart-swatches">
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#48658D;"></div>
+            <div class="chart-swatch-tok">chart.1</div>
+            <div class="chart-swatch-hex">#48658D</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#F87644;"></div>
+            <div class="chart-swatch-tok">chart.2</div>
+            <div class="chart-swatch-hex">#F87644</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#2A7D62;"></div>
+            <div class="chart-swatch-tok">chart.3</div>
+            <div class="chart-swatch-hex">#2A7D62</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#BA7517;"></div>
+            <div class="chart-swatch-tok">chart.4</div>
+            <div class="chart-swatch-hex">#BA7517</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#534AB7;"></div>
+            <div class="chart-swatch-tok">chart.5</div>
+            <div class="chart-swatch-hex">#534AB7</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#185FA5;"></div>
+            <div class="chart-swatch-tok">chart.6</div>
+            <div class="chart-swatch-hex">#185FA5</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#A3B2C6;"></div>
+            <div class="chart-swatch-tok">chart.7</div>
+            <div class="chart-swatch-hex">#A3B2C6</div>
+          </div>
+          <div class="chart-swatch">
+            <div class="chart-swatch-fill" style="background:#163E6F;"></div>
+            <div class="chart-swatch-tok">chart.8</div>
+            <div class="chart-swatch-hex">#163E6F</div>
+          </div>
+        </div>
+        <div class="chart-example">
+          <div class="chart-example-title">Recommendations by category — Q3</div>
+          <div class="chart-bars">
+            <div class="chart-bar" style="background:var(--chart-1);height:82%;">412</div>
+            <div class="chart-bar" style="background:var(--chart-2);height:68%;">341</div>
+            <div class="chart-bar" style="background:var(--chart-3);height:54%;">268</div>
+            <div class="chart-bar" style="background:var(--chart-4);height:42%;">211</div>
+            <div class="chart-bar" style="background:var(--chart-5);height:36%;">178</div>
+            <div class="chart-bar" style="background:var(--chart-6);height:28%;">142</div>
+            <div class="chart-bar" style="background:var(--chart-7);height:22%;">108</div>
+            <div class="chart-bar" style="background:var(--chart-8);height:16%;">76</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icon sizes -->
+    <div class="ds-sub">
+      <h3>Icon sizes</h3>
+      <p style="font-size:14px;color:var(--n600);margin-bottom:20px;max-width:640px;">Five sizes paired with the type scale. Stroke weight scales inversely — smaller icons use heavier strokes to stay legible.</p>
+      <div class="icon-size-grid">
+        <div class="icon-size-card">
+          <div class="icon-size-render">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="icon-size-tok">icon.xs</div>
+            <div class="icon-size-val">12px</div>
+          </div>
+          <div class="icon-size-use">Inline with body text, dense tables</div>
+        </div>
+        <div class="icon-size-card">
+          <div class="icon-size-render">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="icon-size-tok">icon.sm</div>
+            <div class="icon-size-val">16px</div>
+          </div>
+          <div class="icon-size-use">Form fields, buttons, chip icons</div>
+        </div>
+        <div class="icon-size-card">
+          <div class="icon-size-render">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="icon-size-tok">icon.md</div>
+            <div class="icon-size-val">20px</div>
+          </div>
+          <div class="icon-size-use">Nav icons, card headers — default</div>
+        </div>
+        <div class="icon-size-card">
+          <div class="icon-size-render">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="icon-size-tok">icon.lg</div>
+            <div class="icon-size-val">24px</div>
+          </div>
+          <div class="icon-size-use">Empty states, feature callouts</div>
+        </div>
+        <div class="icon-size-card">
+          <div class="icon-size-render">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="icon-size-tok">icon.xl</div>
+            <div class="icon-size-val">32px</div>
+          </div>
+          <div class="icon-size-use">Hero panels, onboarding moments</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Scroll-spy for the sticky design-system nav.
+  (function () {
+    const navLinks = Array.from(document.querySelectorAll('.ds-nav-inner a'));
+    const sections = navLinks
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    function setActive(id) {
+      navLinks.forEach(link => {
+        link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Default: first section active on load.
+    setActive(sections[0].id);
+
+    function onScroll() {
+      const offset = 140; // sticky-nav height + breathing room
+      const scrollY = window.scrollY + offset;
+      let current = sections[0].id;
+      for (const section of sections) {
+        if (section.offsetTop <= scrollY) current = section.id;
+      }
+      setActive(current);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>

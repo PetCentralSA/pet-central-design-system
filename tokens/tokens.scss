@@ -1,0 +1,139 @@
+// ============================================================================
+// Pet Central — Design Tokens (Sass)
+// ----------------------------------------------------------------------------
+// Mirror of tokens.css as Sass variables and maps. Use either CSS custom
+// properties (recommended for runtime themability) or these Sass values for
+// build-time use, especially inside @media queries.
+// ============================================================================
+
+// ---------- Brand ----------
+$brand-primary:      #48658D;
+$brand-primary-deep: #163E6F;
+$brand-cream:        #FFFCFB;
+$brand-terracotta:   #F87644;
+
+// ---------- Functional ----------
+$info-bg:     #E6F1FB; $info-border:     #185FA5; $info-text:     #0C447C;
+$success-bg:  #DEECE4; $success-border:  #2A7D62; $success-text:  #0D4434;
+$warning-bg:  #FAEEDA; $warning-border:  #BA7517; $warning-text:  #633806;
+$danger-bg:   #FCEBEB; $danger-border:   #A32D2D; $danger-text:   #791F1F;
+$seasonal-bg: #EEEDFE; $seasonal-border: #534AB7; $seasonal-text: #3C3489;
+
+// ---------- Neutrals ----------
+$cream-0:   #FFFFFE;
+$cream-50:  #FFFBF7;
+$cream-100: #FEF7EF;
+$cream-200: #FDEEDF;
+
+$navy-0:    #FBFCFD;
+$navy-50:   #E2E6ED;
+$navy-100:  #A3B2C6;
+$navy-200:  #48658D;
+
+// ---------- Radius ----------
+$r-sm:   4px;
+$r-md:   8px;
+$r-lg:   12px;
+$r-xl:   16px;
+$r-full: 9999px;
+
+// ---------- Elevation ----------
+$shadow-none: none;
+$shadow-sm:   0 1px 2px rgba(22, 62, 111, 0.06);
+$shadow-md:   0 4px 12px rgba(22, 62, 111, 0.08);
+$shadow-lg:   0 12px 32px rgba(22, 62, 111, 0.12);
+$shadow-xl:   0 24px 64px rgba(22, 62, 111, 0.16);
+
+// ---------- Focus ring ----------
+$focus-ring-color:  #48658D;
+$focus-ring-width:  3px;
+$focus-ring-offset: 2px;
+
+// ---------- Z-index ----------
+$z-base:     0;
+$z-dropdown: 100;
+$z-sticky:   200;
+$z-fixed:    300;
+$z-overlay:  400;
+$z-modal:    500;
+$z-popover:  600;
+$z-toast:    700;
+$z-tooltip:  800;
+
+// ---------- Content widths ----------
+$content-narrow:  640px;
+$content-default: 1120px;
+$content-wide:    1440px;
+$content-full:    100%;
+
+// ---------- Breakpoints ----------
+// Use these inside @media — CSS custom properties cannot be used there.
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1440px;
+
+// Convenience mixin: @include breakpoint(md) { ... }
+$breakpoints: (
+  sm: $bp-sm,
+  md: $bp-md,
+  lg: $bp-lg,
+  xl: $bp-xl,
+);
+
+@mixin breakpoint($name) {
+  @if map-has-key($breakpoints, $name) {
+    @media (min-width: map-get($breakpoints, $name)) { @content; }
+  } @else {
+    @warn "Unknown breakpoint: #{$name}. Available: #{map-keys($breakpoints)}.";
+  }
+}
+
+// ---------- Chart palette ----------
+$chart-1: #48658D;
+$chart-2: #F87644;
+$chart-3: #2A7D62;
+$chart-4: #BA7517;
+$chart-5: #534AB7;
+$chart-6: #185FA5;
+$chart-7: #A3B2C6;
+$chart-8: #163E6F;
+
+$chart-palette: ($chart-1, $chart-2, $chart-3, $chart-4, $chart-5, $chart-6, $chart-7, $chart-8);
+
+// ---------- Icon sizes ----------
+$icon-xs: 12px;
+$icon-sm: 16px;
+$icon-md: 20px;
+$icon-lg: 24px;
+$icon-xl: 32px;
+
+// ---------- Logo sizes ----------
+$logo-xs: 16px;
+$logo-sm: 24px;
+$logo-md: 36px;
+$logo-lg: 56px;
+$logo-xl: 88px;
+
+// ---------- Motion ----------
+$motion-fast: 120ms;
+$motion-base: 200ms;
+$motion-slow: 320ms;
+$ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+$ease-inout:  cubic-bezier(0.65, 0, 0.35, 1);
+
+// ---------- Type ----------
+$font-header:  'Kefir', 'Jost', system-ui, sans-serif;
+$font-ui:      'Jost', system-ui, -apple-system, sans-serif;
+$font-numbers: 'Inter', system-ui, sans-serif;
+$font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+// ---------- Dark mode ----------
+$dm-surface:       #0D2A4D;
+$dm-card:          #163E6F;
+$dm-elevated:      #1E4C7F;
+$dm-text:          #FFFCFB;
+$dm-text-muted:    rgba(255, 252, 251, 0.68);
+$dm-text-dim:      rgba(255, 252, 251, 0.45);
+$dm-border:        rgba(255, 252, 251, 0.14);
+$dm-border-strong: rgba(255, 252, 251, 0.28);

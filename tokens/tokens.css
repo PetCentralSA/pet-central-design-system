@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Pet Central — Design Tokens
+   --------------------------------------------------------------------------
+   Single source of truth for every Pet Central interface.
+   See: https://github.com/PetCentralSA/pet-central-design-system
+   ========================================================================== */
+
+:root {
+
+  /* ---------- Brand ---------- */
+  --brand-primary: #48658D;       /* core navy */
+  --brand-primary-deep: #163E6F;  /* deep navy — default text + headers */
+  --brand-cream: #FFFCFB;         /* warm white */
+  --brand-terracotta: #F87644;    /* accent — use sparingly */
+
+  /* ---------- Functional (semantic state colours) ---------- */
+  --info-bg: #E6F1FB;     --info-border: #185FA5;     --info-text: #0C447C;
+  --success-bg: #DEECE4;  --success-border: #2A7D62;  --success-text: #0D4434;
+  --warning-bg: #FAEEDA;  --warning-border: #BA7517;  --warning-text: #633806;
+  --danger-bg: #FCEBEB;   --danger-border: #A32D2D;   --danger-text: #791F1F;
+  --seasonal-bg: #EEEDFE; --seasonal-border: #534AB7; --seasonal-text: #3C3489;
+
+  /* ---------- Neutral — cream family (warm surfaces) ---------- */
+  --cream-0: #FFFFFE;
+  --cream-50: #FFFBF7;
+  --cream-100: #FEF7EF;
+  --cream-200: #FDEEDF;
+
+  /* ---------- Neutral — navy family (cool text, borders, hints) ---------- */
+  --navy-0: #FBFCFD;
+  --navy-50: #E2E6ED;
+  --navy-100: #A3B2C6;
+  --navy-200: #48658D;
+
+  /* ---------- Legacy neutral aliases (for incremental migration) ---------- */
+  --n0: var(--cream-0);
+  --n50: var(--cream-50);
+  --n100: var(--cream-100);
+  --n200: var(--navy-50);
+  --n400: var(--navy-100);
+  --n600: var(--brand-primary);
+  --n800: var(--brand-primary-deep);
+  --n900: var(--brand-primary-deep);
+
+  /* ---------- Radius ---------- */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-full: 9999px;
+
+  /* ---------- Elevation (navy-tinted shadows, never black) ---------- */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(22, 62, 111, 0.06);
+  --shadow-md: 0 4px 12px rgba(22, 62, 111, 0.08);
+  --shadow-lg: 0 12px 32px rgba(22, 62, 111, 0.12);
+  --shadow-xl: 0 24px 64px rgba(22, 62, 111, 0.16);
+
+  /* ---------- Focus ring ---------- */
+  --focus-ring-color: #48658D;
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+  --focus-ring: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+
+  /* ---------- Z-index scale ---------- */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-overlay: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-toast: 700;
+  --z-tooltip: 800;
+
+  /* ---------- Content widths ---------- */
+  --content-narrow: 640px;
+  --content-default: 1120px;
+  --content-wide: 1440px;
+  --content-full: 100%;
+
+  /* ---------- Breakpoints (documentation tokens — see usage notes) ----------
+     CSS custom properties cannot be used inside @media queries.
+     Mirror these values in your build tool (PostCSS / Sass / etc).
+  */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1440px;
+
+  /* ---------- Chart palette (categorical data viz) ---------- */
+  --chart-1: #48658D;  /* brand primary navy */
+  --chart-2: #F87644;  /* terracotta */
+  --chart-3: #2A7D62;  /* pine */
+  --chart-4: #BA7517;  /* amber */
+  --chart-5: #534AB7;  /* violet */
+  --chart-6: #185FA5;  /* royal */
+  --chart-7: #A3B2C6;  /* navy muted */
+  --chart-8: #163E6F;  /* primary deep */
+
+  /* ---------- Icon sizes ---------- */
+  --icon-xs: 12px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* ---------- Motion ---------- */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---------- Type families ---------- */
+  --font-header: 'Kefir', 'Jost', system-ui, sans-serif;
+  --font-ui: 'Jost', system-ui, -apple-system, sans-serif;
+  --font-numbers: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ==========================================================================
+   Dark mode tokens — scope to the surface that should render dark.
+   Pet Central is navy-first in dark mode (not neutral-first); the brand stays
+   visible in the dark.
+   ========================================================================== */
+.dark-stage,
+[data-theme="dark"] {
+  --dm-surface: #0D2A4D;
+  --dm-card: #163E6F;
+  --dm-elevated: #1E4C7F;
+  --dm-text: #FFFCFB;
+  --dm-text-muted: rgba(255, 252, 251, 0.68);
+  --dm-text-dim: rgba(255, 252, 251, 0.45);
+  --dm-border: rgba(255, 252, 251, 0.14);
+  --dm-border-strong: rgba(255, 252, 251, 0.28);
+}
+
+/* ==========================================================================
+   Type defaults — apply once, inherit everywhere.
+   ========================================================================== */
+body {
+  font-family: var(--font-ui);
+  color: var(--brand-primary);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
+  color: var(--brand-primary-deep);
+}
