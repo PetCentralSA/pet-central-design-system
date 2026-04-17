@@ -157,4 +157,4 @@ The three token files **must stay in sync**. If you only have time to update one
 
 ## License
 
-Internal Pet Central use only. Do not redistribute.
+© 2026 Pet Central. Public reference — tokens and fonts may be consumed by any Pet Central product or integration. The Pet Central brand mark and name remain proprietary.
