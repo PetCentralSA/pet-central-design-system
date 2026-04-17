@@ -49,6 +49,101 @@ $focus-ring-color:  #48658D;
 $focus-ring-width:  3px;
 $focus-ring-offset: 2px;
 
+// ---------- Buttons (light theme) ----------
+// Four variants × five states. Loading = default + $btn-loading-opacity + spinner.
+// Transitions: 200ms $ease-out. No drop shadows. One primary per screen.
+
+$btn-duration:          $motion-base;
+$btn-easing:            $ease-out;
+$btn-transform-active:  scale(0.98);
+$btn-loading-opacity:   0.75;
+
+// Primary — terracotta accent
+$btn-primary-bg:              #F87644;
+$btn-primary-bg-hover:        #E66430;
+$btn-primary-bg-active:       #D15521;
+$btn-primary-bg-disabled:     #E2E6ED;
+$btn-primary-border:          transparent;
+$btn-primary-border-hover:    transparent;
+$btn-primary-border-active:   transparent;
+$btn-primary-border-disabled: transparent;
+$btn-primary-text:            #FFFCFB;
+$btn-primary-text-hover:      #FFFCFB;
+$btn-primary-text-active:     #FFFCFB;
+$btn-primary-text-disabled:   #A3B2C6;
+
+// Secondary — navy outline, fills on hover
+$btn-secondary-bg:              transparent;
+$btn-secondary-bg-hover:        #163E6F;
+$btn-secondary-bg-active:       #0D2A4D;
+$btn-secondary-bg-disabled:     transparent;
+$btn-secondary-border:          #163E6F;
+$btn-secondary-border-hover:    #163E6F;
+$btn-secondary-border-active:   #0D2A4D;
+$btn-secondary-border-disabled: #E2E6ED;
+$btn-secondary-text:            #163E6F;
+$btn-secondary-text-hover:      #FFFCFB;
+$btn-secondary-text-active:     #FFFCFB;
+$btn-secondary-text-disabled:   #A3B2C6;
+
+// Ghost — text-only; warm cream tint on hover
+$btn-ghost-bg:              transparent;
+$btn-ghost-bg-hover:        #FEF7EF;
+$btn-ghost-bg-active:       #FDEEDF;
+$btn-ghost-bg-disabled:     transparent;
+$btn-ghost-border:          transparent;
+$btn-ghost-border-hover:    transparent;
+$btn-ghost-border-active:   transparent;
+$btn-ghost-border-disabled: transparent;
+$btn-ghost-text:            #163E6F;
+$btn-ghost-text-hover:      #163E6F;
+$btn-ghost-text-active:     #163E6F;
+$btn-ghost-text-disabled:   #A3B2C6;
+
+// Destructive — solid danger
+$btn-destructive-bg:              #A32D2D;
+$btn-destructive-bg-hover:        #881F1F;
+$btn-destructive-bg-active:       #791F1F;
+$btn-destructive-bg-disabled:     #E2E6ED;
+$btn-destructive-border:          transparent;
+$btn-destructive-border-hover:    transparent;
+$btn-destructive-border-active:   transparent;
+$btn-destructive-border-disabled: transparent;
+$btn-destructive-text:            #FFFCFB;
+$btn-destructive-text-hover:      #FFFCFB;
+$btn-destructive-text-active:     #FFFCFB;
+$btn-destructive-text-disabled:   #A3B2C6;
+
+// ---------- Buttons (dark theme overrides) ----------
+// Consume via scoped Sass maps or a .dark-stage selector in your build.
+
+$btn-dark-primary-bg:             #F87644;
+$btn-dark-primary-bg-hover:       #FA8A5E; // lightens on dark
+$btn-dark-primary-bg-active:      #E66430;
+$btn-dark-primary-bg-disabled:    rgba(255, 252, 251, 0.14);
+$btn-dark-primary-text-disabled:  rgba(255, 252, 251, 0.45);
+
+$btn-dark-secondary-bg:             transparent;
+$btn-dark-secondary-bg-hover:       rgba(255, 252, 251, 0.10);
+$btn-dark-secondary-bg-active:      rgba(255, 252, 251, 0.18);
+$btn-dark-secondary-border:         rgba(255, 252, 251, 0.28);
+$btn-dark-secondary-border-hover:   #FFFCFB;
+$btn-dark-secondary-border-active:  #FFFCFB;
+$btn-dark-secondary-border-disabled:rgba(255, 252, 251, 0.14);
+$btn-dark-secondary-text:           #FFFCFB;
+$btn-dark-secondary-text-disabled:  rgba(255, 252, 251, 0.28);
+
+$btn-dark-ghost-bg-hover:       rgba(255, 252, 251, 0.08);
+$btn-dark-ghost-bg-active:      rgba(255, 252, 251, 0.14);
+$btn-dark-ghost-text:           #FFFCFB;
+$btn-dark-ghost-text-disabled:  rgba(255, 252, 251, 0.28);
+
+$btn-dark-destructive-bg:             #E05858;
+$btn-dark-destructive-bg-hover:       #D04848;
+$btn-dark-destructive-bg-active:      #A32D2D;
+$btn-dark-destructive-bg-disabled:    rgba(255, 252, 251, 0.14);
+$btn-dark-destructive-text-disabled:  rgba(255, 252, 251, 0.45);
+
 // ---------- Z-index ----------
 $z-base:     0;
 $z-dropdown: 100;

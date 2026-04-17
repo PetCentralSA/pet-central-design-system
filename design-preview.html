@@ -87,6 +87,67 @@
   --focus-ring-offset: 2px;
   --focus-ring: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
 
+  /* ---------- Buttons ----------
+     Four variants × five states. Loading = default + --btn-loading-opacity +
+     spinner. 200ms transitions. No drop shadows. One primary per screen. */
+
+  --btn-duration: 200ms;
+  --btn-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --btn-transform-active: scale(0.98);
+  --btn-loading-opacity: 0.75;
+
+  --btn-primary-bg: #F87644;
+  --btn-primary-bg-hover: #E66430;
+  --btn-primary-bg-active: #D15521;
+  --btn-primary-bg-disabled: #E2E6ED;
+  --btn-primary-border: transparent;
+  --btn-primary-border-hover: transparent;
+  --btn-primary-border-active: transparent;
+  --btn-primary-border-disabled: transparent;
+  --btn-primary-text: #FFFCFB;
+  --btn-primary-text-hover: #FFFCFB;
+  --btn-primary-text-active: #FFFCFB;
+  --btn-primary-text-disabled: #A3B2C6;
+
+  --btn-secondary-bg: transparent;
+  --btn-secondary-bg-hover: #163E6F;
+  --btn-secondary-bg-active: #0D2A4D;
+  --btn-secondary-bg-disabled: transparent;
+  --btn-secondary-border: #163E6F;
+  --btn-secondary-border-hover: #163E6F;
+  --btn-secondary-border-active: #0D2A4D;
+  --btn-secondary-border-disabled: #E2E6ED;
+  --btn-secondary-text: #163E6F;
+  --btn-secondary-text-hover: #FFFCFB;
+  --btn-secondary-text-active: #FFFCFB;
+  --btn-secondary-text-disabled: #A3B2C6;
+
+  --btn-ghost-bg: transparent;
+  --btn-ghost-bg-hover: #FEF7EF;
+  --btn-ghost-bg-active: #FDEEDF;
+  --btn-ghost-bg-disabled: transparent;
+  --btn-ghost-border: transparent;
+  --btn-ghost-border-hover: transparent;
+  --btn-ghost-border-active: transparent;
+  --btn-ghost-border-disabled: transparent;
+  --btn-ghost-text: #163E6F;
+  --btn-ghost-text-hover: #163E6F;
+  --btn-ghost-text-active: #163E6F;
+  --btn-ghost-text-disabled: #A3B2C6;
+
+  --btn-destructive-bg: #A32D2D;
+  --btn-destructive-bg-hover: #881F1F;
+  --btn-destructive-bg-active: #791F1F;
+  --btn-destructive-bg-disabled: #E2E6ED;
+  --btn-destructive-border: transparent;
+  --btn-destructive-border-hover: transparent;
+  --btn-destructive-border-active: transparent;
+  --btn-destructive-border-disabled: transparent;
+  --btn-destructive-text: #FFFCFB;
+  --btn-destructive-text-hover: #FFFCFB;
+  --btn-destructive-text-active: #FFFCFB;
+  --btn-destructive-text-disabled: #A3B2C6;
+
   /* Z-index scale */
   --z-base: 0;
   --z-dropdown: 100;
@@ -323,6 +384,41 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
   --dm-text-dim: rgba(255, 252, 251, 0.45);
   --dm-border: rgba(255, 252, 251, 0.14);
   --dm-border-strong: rgba(255, 252, 251, 0.28);
+
+  /* Button overrides — primary HOVER lightens on dark, rest use cream-at-opacity. */
+  --btn-primary-bg: #F87644;
+  --btn-primary-bg-hover: #FA8A5E;
+  --btn-primary-bg-active: #E66430;
+  --btn-primary-bg-disabled: rgba(255, 252, 251, 0.14);
+  --btn-primary-text-disabled: rgba(255, 252, 251, 0.45);
+
+  --btn-secondary-bg: transparent;
+  --btn-secondary-bg-hover: rgba(255, 252, 251, 0.10);
+  --btn-secondary-bg-active: rgba(255, 252, 251, 0.18);
+  --btn-secondary-bg-disabled: transparent;
+  --btn-secondary-border: rgba(255, 252, 251, 0.28);
+  --btn-secondary-border-hover: #FFFCFB;
+  --btn-secondary-border-active: #FFFCFB;
+  --btn-secondary-border-disabled: rgba(255, 252, 251, 0.14);
+  --btn-secondary-text: #FFFCFB;
+  --btn-secondary-text-hover: #FFFCFB;
+  --btn-secondary-text-active: #FFFCFB;
+  --btn-secondary-text-disabled: rgba(255, 252, 251, 0.28);
+
+  --btn-ghost-bg: transparent;
+  --btn-ghost-bg-hover: rgba(255, 252, 251, 0.08);
+  --btn-ghost-bg-active: rgba(255, 252, 251, 0.14);
+  --btn-ghost-bg-disabled: transparent;
+  --btn-ghost-text: #FFFCFB;
+  --btn-ghost-text-hover: #FFFCFB;
+  --btn-ghost-text-active: #FFFCFB;
+  --btn-ghost-text-disabled: rgba(255, 252, 251, 0.28);
+
+  --btn-destructive-bg: #E05858;
+  --btn-destructive-bg-hover: #D04848;
+  --btn-destructive-bg-active: #A32D2D;
+  --btn-destructive-bg-disabled: rgba(255, 252, 251, 0.14);
+  --btn-destructive-text-disabled: rgba(255, 252, 251, 0.45);
 
   background: var(--dm-surface);
   border-radius: var(--r-lg);
@@ -1019,52 +1115,131 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
   flex-wrap: wrap;
 }
 
-/* Buttons */
-.btn-demo {
+/* ============================================================
+   Buttons — canonical implementation consuming the button tokens.
+   Copy this into any Pet Central product verbatim.
+   ============================================================ */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   height: 36px;
   padding: 0 20px;
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 500;
-  border: none;
+  line-height: 1;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--motion-fast) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--btn-duration) var(--btn-easing),
+    border-color     var(--btn-duration) var(--btn-easing),
+    color            var(--btn-duration) var(--btn-easing),
+    transform        var(--motion-fast)  var(--btn-easing);
 }
-.btn-primary-demo {
-  background: var(--brand-primary);
-  color: var(--n0);
-  border-radius: var(--r-lg);
-}
-.btn-primary-demo:hover { background: var(--brand-primary-deep); }
-.btn-primary-demo:active { transform: scale(0.98); }
-.btn-secondary-demo {
-  background: transparent;
-  color: var(--n800);
-  border: 0.5px solid var(--n200);
-  border-radius: var(--r-md);
-}
-.btn-secondary-demo:hover { background: var(--n100); }
-.btn-ghost-demo {
-  background: transparent;
-  color: var(--n600);
-  border-radius: var(--r-md);
-}
-.btn-ghost-demo:hover { background: var(--n100); }
-.btn-destructive-demo {
-  background: var(--danger-bg);
-  color: var(--danger-text);
-  border-radius: var(--r-md);
-}
-.btn-destructive-demo:hover { background: #f8d4d4; }
+.btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn:disabled, .btn[aria-disabled="true"] { cursor: not-allowed; }
+.btn.is-loading { opacity: var(--btn-loading-opacity); pointer-events: none; }
 
-.btn-touch {
-  height: 44px;
-  padding: 0 28px;
-  font-size: 15px;
+/* Primary */
+.btn-primary             { background: var(--btn-primary-bg);          border-color: var(--btn-primary-border);         color: var(--btn-primary-text); }
+.btn-primary:hover       { background: var(--btn-primary-bg-hover);    border-color: var(--btn-primary-border-hover);   color: var(--btn-primary-text-hover); }
+.btn-primary:active      { background: var(--btn-primary-bg-active);   border-color: var(--btn-primary-border-active);  color: var(--btn-primary-text-active);   transform: var(--btn-transform-active); }
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] { background: var(--btn-primary-bg-disabled); border-color: var(--btn-primary-border-disabled); color: var(--btn-primary-text-disabled); }
+
+/* Secondary */
+.btn-secondary           { background: var(--btn-secondary-bg);        border-color: var(--btn-secondary-border);       color: var(--btn-secondary-text); }
+.btn-secondary:hover     { background: var(--btn-secondary-bg-hover);  border-color: var(--btn-secondary-border-hover); color: var(--btn-secondary-text-hover); }
+.btn-secondary:active    { background: var(--btn-secondary-bg-active); border-color: var(--btn-secondary-border-active);color: var(--btn-secondary-text-active); transform: var(--btn-transform-active); }
+.btn-secondary:disabled,
+.btn-secondary[aria-disabled="true"] { background: var(--btn-secondary-bg-disabled); border-color: var(--btn-secondary-border-disabled); color: var(--btn-secondary-text-disabled); }
+
+/* Ghost */
+.btn-ghost               { background: var(--btn-ghost-bg);            border-color: var(--btn-ghost-border);           color: var(--btn-ghost-text); }
+.btn-ghost:hover         { background: var(--btn-ghost-bg-hover);      border-color: var(--btn-ghost-border-hover);     color: var(--btn-ghost-text-hover); }
+.btn-ghost:active        { background: var(--btn-ghost-bg-active);     border-color: var(--btn-ghost-border-active);    color: var(--btn-ghost-text-active);    transform: var(--btn-transform-active); }
+.btn-ghost:disabled,
+.btn-ghost[aria-disabled="true"] { background: var(--btn-ghost-bg-disabled); border-color: var(--btn-ghost-border-disabled); color: var(--btn-ghost-text-disabled); }
+
+/* Destructive */
+.btn-destructive         { background: var(--btn-destructive-bg);          border-color: var(--btn-destructive-border);       color: var(--btn-destructive-text); }
+.btn-destructive:hover   { background: var(--btn-destructive-bg-hover);    border-color: var(--btn-destructive-border-hover); color: var(--btn-destructive-text-hover); }
+.btn-destructive:active  { background: var(--btn-destructive-bg-active);   border-color: var(--btn-destructive-border-active);color: var(--btn-destructive-text-active); transform: var(--btn-transform-active); }
+.btn-destructive:disabled,
+.btn-destructive[aria-disabled="true"] { background: var(--btn-destructive-bg-disabled); border-color: var(--btn-destructive-border-disabled); color: var(--btn-destructive-text-disabled); }
+
+/* Touch target (44px min — WCAG AAA, 56px preferred for primary SA mobile) */
+.btn-touch { height: 44px; padding: 0 28px; font-size: 15px; }
+.btn-touch-lg { height: 56px; padding: 0 32px; font-size: 16px; }
+
+/* Spinner — consumed by .is-loading */
+.btn-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--r-full);
+  animation: btn-spin 800ms linear infinite;
 }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   Legacy demo shims — keep old .btn-*-demo classes working for
+   sections that haven't been migrated to .btn yet. Remove once
+   all preview sections consume the token-driven .btn classes.
+   ============================================================ */
+.btn-demo { display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 20px;font-family:var(--font-ui);font-size:14px;font-weight:500;border:1px solid transparent;border-radius:var(--r-md);cursor:pointer;transition:all var(--motion-fast) var(--ease-out); }
+.btn-primary-demo       { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
+.btn-primary-demo:hover { background: var(--btn-primary-bg-hover); }
+.btn-primary-demo:active{ background: var(--btn-primary-bg-active); transform: var(--btn-transform-active); }
+.btn-secondary-demo       { background: var(--btn-secondary-bg); color: var(--btn-secondary-text); border-color: var(--btn-secondary-border); }
+.btn-secondary-demo:hover { background: var(--btn-secondary-bg-hover); color: var(--btn-secondary-text-hover); }
+.btn-ghost-demo       { background: var(--btn-ghost-bg); color: var(--btn-ghost-text); }
+.btn-ghost-demo:hover { background: var(--btn-ghost-bg-hover); }
+.btn-destructive-demo       { background: var(--btn-destructive-bg); color: var(--btn-destructive-text); }
+.btn-destructive-demo:hover { background: var(--btn-destructive-bg-hover); }
+.btn-touch { height: 44px; padding: 0 28px; font-size: 15px; }
+
+/* Button state matrix preview */
+.btn-matrix {
+  display: grid;
+  grid-template-columns: 120px repeat(5, 1fr);
+  gap: 16px 20px;
+  align-items: center;
+}
+.btn-matrix-header,
+.btn-matrix-row-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy-100);
+}
+.btn-matrix-stage {
+  background: var(--cream-50);
+  border: 0.5px solid var(--navy-50);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.btn-matrix-stage.dark {
+  background: var(--dm-surface);
+  border-color: var(--dm-border);
+}
+.btn-matrix-stage.dark .btn-matrix-header,
+.btn-matrix-stage.dark .btn-matrix-row-label { color: var(--dm-text-dim); }
+.btn-stage-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 16px;
+}
+.btn-matrix-stage.dark .btn-stage-label { color: var(--dm-text-muted); }
 
 /* Card */
 .card-demo {
@@ -2942,18 +3117,104 @@ h1, h2, h3, h4 { color: var(--brand-primary-deep); }
       <p>12 components that cover 90% of UI needs. Build these first.</p>
     </div>
 
-    <!-- Buttons -->
+    <!-- Buttons — state matrix, light + dark -->
     <div class="comp-group">
-      <div class="comp-group-label">Buttons</div>
-      <div class="comp-row" style="margin-bottom:16px;">
-        <button class="btn-demo btn-primary-demo">Primary action</button>
-        <button class="btn-demo btn-secondary-demo">Secondary</button>
-        <button class="btn-demo btn-ghost-demo">Ghost</button>
-        <button class="btn-demo btn-destructive-demo">Delete</button>
+      <div class="comp-group-label">Buttons — variants × states</div>
+      <p style="font-size:14px;color:var(--brand-primary);max-width:640px;margin-bottom:20px;">
+        Four variants × six states × two themes. Consume the <code style="font-family:var(--font-mono);font-size:12px;">--btn-*</code> tokens — never hardcode hover or disabled colours. Loading is the default token set at <code style="font-family:var(--font-mono);font-size:12px;">--btn-loading-opacity</code> with a spinner.
+      </p>
+
+      <!-- Light theme stage -->
+      <div class="btn-matrix-stage" style="margin-bottom:16px;">
+        <div class="btn-stage-label">Light theme · cream surface</div>
+        <div class="btn-matrix">
+          <div class="btn-matrix-header"></div>
+          <div class="btn-matrix-header">Default</div>
+          <div class="btn-matrix-header">Hover</div>
+          <div class="btn-matrix-header">Active</div>
+          <div class="btn-matrix-header">Disabled</div>
+          <div class="btn-matrix-header">Loading</div>
+
+          <div class="btn-matrix-row-label">Primary</div>
+          <div><button class="btn btn-primary">Save</button></div>
+          <div><button class="btn btn-primary" style="background:var(--btn-primary-bg-hover);">Save</button></div>
+          <div><button class="btn btn-primary" style="background:var(--btn-primary-bg-active);transform:var(--btn-transform-active);">Save</button></div>
+          <div><button class="btn btn-primary" disabled>Save</button></div>
+          <div><button class="btn btn-primary is-loading"><span class="btn-spinner" aria-hidden="true"></span>Saving</button></div>
+
+          <div class="btn-matrix-row-label">Secondary</div>
+          <div><button class="btn btn-secondary">Cancel</button></div>
+          <div><button class="btn btn-secondary" style="background:var(--btn-secondary-bg-hover);color:var(--btn-secondary-text-hover);">Cancel</button></div>
+          <div><button class="btn btn-secondary" style="background:var(--btn-secondary-bg-active);border-color:var(--btn-secondary-border-active);color:var(--btn-secondary-text-active);transform:var(--btn-transform-active);">Cancel</button></div>
+          <div><button class="btn btn-secondary" disabled>Cancel</button></div>
+          <div><button class="btn btn-secondary is-loading"><span class="btn-spinner" aria-hidden="true"></span>Cancelling</button></div>
+
+          <div class="btn-matrix-row-label">Ghost</div>
+          <div><button class="btn btn-ghost">Skip</button></div>
+          <div><button class="btn btn-ghost" style="background:var(--btn-ghost-bg-hover);">Skip</button></div>
+          <div><button class="btn btn-ghost" style="background:var(--btn-ghost-bg-active);transform:var(--btn-transform-active);">Skip</button></div>
+          <div><button class="btn btn-ghost" disabled>Skip</button></div>
+          <div><button class="btn btn-ghost is-loading"><span class="btn-spinner" aria-hidden="true"></span>Loading</button></div>
+
+          <div class="btn-matrix-row-label">Destructive</div>
+          <div><button class="btn btn-destructive">Delete</button></div>
+          <div><button class="btn btn-destructive" style="background:var(--btn-destructive-bg-hover);">Delete</button></div>
+          <div><button class="btn btn-destructive" style="background:var(--btn-destructive-bg-active);transform:var(--btn-transform-active);">Delete</button></div>
+          <div><button class="btn btn-destructive" disabled>Delete</button></div>
+          <div><button class="btn btn-destructive is-loading"><span class="btn-spinner" aria-hidden="true"></span>Deleting</button></div>
+        </div>
       </div>
-      <div class="comp-row">
-        <button class="btn-demo btn-primary-demo btn-touch">Touch primary (44px)</button>
+
+      <!-- Dark theme stage -->
+      <div class="btn-matrix-stage dark dark-stage" style="margin-bottom:20px;">
+        <div class="btn-stage-label">Dark theme · navy surface</div>
+        <div class="btn-matrix">
+          <div class="btn-matrix-header"></div>
+          <div class="btn-matrix-header">Default</div>
+          <div class="btn-matrix-header">Hover</div>
+          <div class="btn-matrix-header">Active</div>
+          <div class="btn-matrix-header">Disabled</div>
+          <div class="btn-matrix-header">Loading</div>
+
+          <div class="btn-matrix-row-label">Primary</div>
+          <div><button class="btn btn-primary">Save</button></div>
+          <div><button class="btn btn-primary" style="background:var(--btn-primary-bg-hover);">Save</button></div>
+          <div><button class="btn btn-primary" style="background:var(--btn-primary-bg-active);transform:var(--btn-transform-active);">Save</button></div>
+          <div><button class="btn btn-primary" disabled>Save</button></div>
+          <div><button class="btn btn-primary is-loading"><span class="btn-spinner" aria-hidden="true"></span>Saving</button></div>
+
+          <div class="btn-matrix-row-label">Secondary</div>
+          <div><button class="btn btn-secondary">Cancel</button></div>
+          <div><button class="btn btn-secondary" style="background:var(--btn-secondary-bg-hover);border-color:var(--btn-secondary-border-hover);">Cancel</button></div>
+          <div><button class="btn btn-secondary" style="background:var(--btn-secondary-bg-active);border-color:var(--btn-secondary-border-active);transform:var(--btn-transform-active);">Cancel</button></div>
+          <div><button class="btn btn-secondary" disabled>Cancel</button></div>
+          <div><button class="btn btn-secondary is-loading"><span class="btn-spinner" aria-hidden="true"></span>Cancelling</button></div>
+
+          <div class="btn-matrix-row-label">Ghost</div>
+          <div><button class="btn btn-ghost">Skip</button></div>
+          <div><button class="btn btn-ghost" style="background:var(--btn-ghost-bg-hover);">Skip</button></div>
+          <div><button class="btn btn-ghost" style="background:var(--btn-ghost-bg-active);transform:var(--btn-transform-active);">Skip</button></div>
+          <div><button class="btn btn-ghost" disabled>Skip</button></div>
+          <div><button class="btn btn-ghost is-loading"><span class="btn-spinner" aria-hidden="true"></span>Loading</button></div>
+
+          <div class="btn-matrix-row-label">Destructive</div>
+          <div><button class="btn btn-destructive">Delete</button></div>
+          <div><button class="btn btn-destructive" style="background:var(--btn-destructive-bg-hover);">Delete</button></div>
+          <div><button class="btn btn-destructive" style="background:var(--btn-destructive-bg-active);transform:var(--btn-transform-active);">Delete</button></div>
+          <div><button class="btn btn-destructive" disabled>Delete</button></div>
+          <div><button class="btn btn-destructive is-loading"><span class="btn-spinner" aria-hidden="true"></span>Deleting</button></div>
+        </div>
       </div>
+
+      <!-- Interactive + touch targets -->
+      <div class="comp-row" style="gap:12px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-touch">Touch primary · 44px</button>
+        <button class="btn btn-primary btn-touch-lg">Preferred · 56px (SA mobile)</button>
+        <button class="btn btn-secondary btn-touch">Secondary · 44px</button>
+      </div>
+      <p style="font-size:13px;color:var(--navy-100);max-width:640px;">
+        Touch targets: <strong>44px minimum</strong>, <strong>56px preferred</strong> for primary actions on SA mobile. Hover at <code style="font-family:var(--font-mono);font-size:12px;">--btn-duration (200ms) var(--btn-easing)</code>. Active press at <code style="font-family:var(--font-mono);font-size:12px;">scale(0.98)</code>. No drop shadows. Focus lands on the global <code style="font-family:var(--font-mono);font-size:12px;">--focus-ring</code>.
+      </p>
     </div>
 
     <!-- Card -->
